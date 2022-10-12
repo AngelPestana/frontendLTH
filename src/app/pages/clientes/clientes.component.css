@@ -58,3 +58,7 @@ i.bi.bi-caret-right, i.bi.bi-caret-left, .page-link{
     background-color: #315185;
     border-color: #315185;
 }
+
+.pagination .page-item {
+    float: left;
+}
