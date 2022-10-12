@@ -1,0 +1,85 @@
+.topbar {
+    background: #244983;
+    height: 40px;
+    font-size: 14px;
+    transition: all 0.5s;
+    color: #fff;
+    padding: 0;
+}
+
+a{
+    text-decoration: none;
+    color: #fff;
+}
+
+.topbar .social-links a:hover {
+    color: #fff;
+}
+
+.topbar .social-links a {
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 0;
+    transition: 0.3s;
+    margin-left: 20px;
+}
+
+.navbar {
+    transition: all 1s;
+}
+
+.bajo{
+    box-shadow: 0px 2px 20px rgb(0 0 0 / 10%);
+}
+
+.navbar.navbar-expand-lg.bg-light {
+    background-color: #315185 !important;
+}
+
+a.nav-link::before {
+    content: "";
+    height: 2px;
+    width: 0%;
+    background: #c9495e;
+    position: absolute;
+    left: 0;
+    bottom: 0px;
+    transition: 0.4s ease-out;
+}
+
+a.dropdown-item::before {/*Lo mismo pero con la diferencia del espacio*/
+    content: "";
+    height: 2px;
+    width: 0%;
+    background: #c9495e;
+    position: absolute;
+    left: 0;
+    bottom: -0px;
+    transition: 0.4s ease-out;
+}
+
+.nav-item, .dropdown-menu li a.dropdown-item{
+    position: relative;
+}
+
+/*Hover submenu*/
+
+/*Hacer que el hover solo funcione con pc*/
+/*El hover solo puede ser funcional con los ordenadores*/
+/*
+En vez de usar este hover
+.dropdown:hover .dropdown-menu {
+    display: block;
+}*/
+
+/*Se ocupa este hover en caso de ignorar hover para los dispositivos moviles*/
+@media (hover: hover) {
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+    a.nav-link:hover::before {
+        width: 100%;
+    }
+    a.dropdown-item:hover::before{
+        width: 100%;
+    }
+}
