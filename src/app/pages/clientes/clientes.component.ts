@@ -29,19 +29,19 @@ export class ClientesComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerClientes();
-    //this.formularioReactivo();
+    this.formularioReactivo();
   }
-/*
+
   formularioReactivo(): void {
     this.formulario = new FormGroup({
       busqueda: new FormControl('', [
         Validators.required,
         Validators.minLength(5),
-        Validators.maxLength(15)
+        Validators.maxLength(50)
       ])
     });
     //console.log(this.formulario);
-  }*/
+  }
 
   obtenerClientesBase() {
     this.estaBuscando = false;
@@ -67,11 +67,12 @@ export class ClientesComponent implements OnInit {
 
   obtenerClientes() {
     this.spinner.show();//Mostramos el loading
+    console.log(this.url)
     this.ps.getClientes2(this.url).subscribe((res: any) => {
       this.clientes = res.clientes;
       this.details = res.getDetails;
-      //console.log(this.clientes);
-      //console.log(this.details);
+      console.log(this.clientes);
+      console.log(this.details);
       //console.log('siguiente: ' + this.details.next);
       //console.log('anterior: ' + this.details.previous);
       this.contar();
@@ -116,11 +117,11 @@ export class ClientesComponent implements OnInit {
   mostrarOtrosClientes(otroUrl: string) {
     //console.log(otroUrl);
     this.url = otroUrl;
-    console.log(this.url);
+    //console.log(this.url);
     this.obtenerClientes();
   }
 
-  mostrarOtrosClientes2(otroUrl: string) {
+  mostrarOtrosClientes2(otroUrl: string) {//para el boton de busqueda
     //console.log(otroUrl);
     this.estaBuscando = true;
     this.buscar = this.formularioControl.busqueda.value;
@@ -143,6 +144,17 @@ export class ClientesComponent implements OnInit {
       confirmButtonText: 'Aceptar',
       allowOutsideClick: false
     });
+  }
+
+  paginaActiva(currentpage: number, numero: number): string {
+    if (currentpage == numero){
+      return "active"
+    }
+    return ""
+  }
+
+  entroEnGestion(id: number | undefined) {
+    
   }
 
   get formularioControl() {//NO borrar

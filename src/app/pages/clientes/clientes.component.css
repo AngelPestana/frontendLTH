@@ -62,3 +62,9 @@ i.bi.bi-caret-right, i.bi.bi-caret-left, .page-link{
 .pagination .page-item {
     float: left;
 }
+
+.pagination-primary-soft .page-link.active {
+    color: #fff;
+    background-color: #315185;
+    border-color: #315185;
+}

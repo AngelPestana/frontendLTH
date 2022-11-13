@@ -32,7 +32,7 @@ export class ClienteService {
         //Authorization: 'Bearer ' + localStorage.getItem('token')
       })
     };
-    return this.http.get(this.url, httpOptions);
+    return this.http.get(url, httpOptions);
   }
 
   getCliente(id: number) {

@@ -10,6 +10,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { HeaderComponent } from './includes/header/header.component';
 import { FooterComponent } from './includes/footer/footer.component';
 import { ClientesComponent } from './pages/clientes/clientes.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,8 @@ import { ClientesComponent } from './pages/clientes/clientes.component';
     HttpClientModule,
     BrowserAnimationsModule,
     NgxSpinnerModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
