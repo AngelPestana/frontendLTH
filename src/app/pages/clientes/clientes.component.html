@@ -44,7 +44,7 @@
 
 							<div class="col-md-3 text-center">
 								<!-- Aqui boton agregar -->
-								<a href="#" class="btn-agregar w-100">Nuevo cliente</a>
+								<a href="" class="btn-agregar w-100" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="entroEnAgregar()">Nuevo cliente</a>
 							</div>
 						</div>
 						<!-- Search and select END -->
@@ -80,10 +80,9 @@
 										<td>{{cliente.porcentajeDescuento}} %</td>
 										<td>{{cliente.porcentajeDescuento2}} %</td>
 										<td>
-											<a href="" class="btn btn-primary" data-bs-toggle="modal"
+											<a href="" class="btn-agregar" data-bs-toggle="modal"
                             				data-bs-target="#staticBackdrop" (click)="entroEnGestion(cliente.id)">
-                            					<i class="bi bi-pencil-square"></i>
-                            				Gestión</a>
+                            					<i class="bi bi-pencil-square"></i></a>
 										</td>
 									</tr>
 								</tbody>
@@ -135,5 +134,138 @@
 		</div> <!-- Row END -->
 	</div>
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel" *ngIf="estaEnGestion == true">Gestión Cliente</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" *ngIf="estaEnGestion == false">Agregar Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="mb-2" novalidate [formGroup]="formulario2">
+                    <div class="position-relative mb-4">
+                        <label for="nombreLocal" class="form-label fs-base">Nombre del local</label>
+                        <input type="text" id="nombreLocal" class="form-control form-control-lg" formControlName="nombreLocal">
+                        <div
+                            *ngIf="formularioControl2.nombreLocal.errors && (formularioControl2.nombreLocal.dirty || formularioControl2.nombreLocal.touched)">
+                            <p class="form-text text-danger"
+                                *ngIf="formularioControl2.nombreLocal.errors.required || formularioControl2.nombreLocal.errors.minlength || formularioControl2.nombreLocal.errors.maxlength || formularioControl2.nombreLocal.errors.pattern">
+                                El nombre de local es requerido, debe ser valido, no debe tener menos de 3 caracteres y más de 45 caracteres</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="nombrePropietario" class="form-label fs-base">Nombre del propietario</label>
+                        <input type="text" id="nombrePropietario" class="form-control form-control-lg" formControlName="nombrePropietario">
+                        <div
+                            *ngIf="formularioControl2.nombrePropietario.errors && (formularioControl2.nombrePropietario.dirty || formularioControl2.nombrePropietario.touched)">
+                            <p class="form-text text-danger"
+                                *ngIf="formularioControl2.nombrePropietario.errors.required || formularioControl2.nombrePropietario.errors.minlength || formularioControl2.nombrePropietario.errors.maxlength || formularioControl2.nombrePropietario.errors.pattern">
+                                El nombre del propietario es requerido, debe ser valido, no debe tener menos de 3 caracteres y más de 45 caracteres</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="nombreEncargado" class="form-label fs-base">Nombre del encargado</label>
+                        <input type="text" id="nombreEncargado" class="form-control form-control-lg" formControlName="nombreEncargado">
+                        <div
+                            *ngIf="formularioControl2.nombreEncargado.errors && (formularioControl2.nombreEncargado.dirty || formularioControl2.nombreEncargado.touched)">
+                            <p class="form-text text-danger"
+                                *ngIf="formularioControl2.nombreEncargado.errors.required || formularioControl2.nombreEncargado.errors.minlength || formularioControl2.nombreEncargado.errors.maxlength || formularioControl2.nombreEncargado.errors.pattern">
+                                El nombre del encargado es requerido, debe ser valido, no debe tener menos de 3 caracteres y más de 45 caracteres</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="telefono" class="form-label fs-base">Telefono</label>
+                        <input type="text" id="telefono" class="form-control form-control-lg" formControlName="telefono">
+                        <div
+                            *ngIf="formularioControl2.telefono.errors && (formularioControl2.telefono.dirty || formularioControl2.telefono.touched)">
+                            <p class="form-text text-danger"
+                                *ngIf="formularioControl2.telefono.errors.required || formularioControl2.telefono.errors.minlength || formularioControl2.telefono.errors.maxlength || formularioControl2.telefono.errors.pattern">
+                                El telefono es requerido, debe ser valido y no debe tener con exactitud 10 caracteres</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="municipio" class="form-label fs-base">Municipio</label>
+                        <input type="text" id="municipio" class="form-control form-control-lg" formControlName="municipio">
+                        <div
+                            *ngIf="formularioControl2.municipio.errors && (formularioControl2.municipio.dirty || formularioControl2.municipio.touched)">
+                            <p class="form-text text-danger"
+                                *ngIf="formularioControl2.municipio.errors.required || formularioControl2.municipio.errors.minlength || formularioControl2.municipio.errors.maxlength || formularioControl2.municipio.errors.pattern">
+                                El municipio es requerido, debe ser valido, no debe tener menos de 3 caracteres y más de 45 caracteres</p>
+                        </div>
+                    </div>
+
+					<div class="mb-4">
+                        <label for="estado" class="form-label fs-base">Estado</label>
+                        <select class="form-select form-control" id="estado" formControlName="estado">
+                            <option selected disabled>Seleccione...</option>
+                            <option value="Chiapas">Chiapas</option>
+                            <option value="Oaxaca">Oaxaca</option>
+                        </select>
+                        <div
+                            *ngIf="formularioControl2.estado.errors && (formularioControl2.estado.dirty || formularioControl2.estado.touched)">
+                            <p class="form-text text-danger"
+                                *ngIf="formularioControl2.estado.errors.required">
+                                El estado es requerido</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="porcentajeDescuento" class="form-label fs-base">Descuento 1</label>
+                        <input type="number" id="porcentajeDescuento" class="form-control form-control-lg" formControlName="porcentajeDescuento">
+                        <div
+                            *ngIf="formularioControl2.porcentajeDescuento.errors && (formularioControl2.porcentajeDescuento.dirty || formularioControl2.porcentajeDescuento.touched)">
+                            <p class="form-text text-danger"
+                                *ngIf="formularioControl2.porcentajeDescuento.errors.required || formularioControl2.porcentajeDescuento.errors.minlength || formularioControl2.porcentajeDescuento.errors.maxlength || formularioControl2.porcentajeDescuento.errors.pattern">
+                                El descuento 1 es requerido, debe ser valido, no debe tener menos de 1 caracter y más de 5 caracteres</p>
+                        </div>
+                    </div>
+
+					<div class="mb-4">
+                        <label for="porcentajeDescuento2" class="form-label fs-base">Descuento 2</label>
+                        <input type="number" id="porcentajeDescuento2" class="form-control form-control-lg" formControlName="porcentajeDescuento2">
+                        <div
+                            *ngIf="formularioControl2.porcentajeDescuento2.errors && (formularioControl2.porcentajeDescuento2.dirty || formularioControl2.porcentajeDescuento2.touched)">
+                            <p class="form-text text-danger"
+                                *ngIf="formularioControl2.porcentajeDescuento2.errors.required || formularioControl2.porcentajeDescuento2.errors.minlength || formularioControl2.porcentajeDescuento2.errors.maxlength || formularioControl2.porcentajeDescuento2.errors.pattern">
+                                El descuento 2 es requerido, debe ser valido, no debe tener menos de 1 caracter y más de 5 caracteres</p>
+                        </div>
+                    </div>
+
+					<div class="mb-4">
+                        <label for="direccion" class="form-label fs-base">Direccion</label>
+                        <textarea type="text" id="direccion" class="form-control form-control-lg" formControlName="direccion">
+						</textarea>
+                        <div
+                            *ngIf="formularioControl2.direccion.errors && (formularioControl2.direccion.dirty || formularioControl2.direccion.touched)">
+                            <p class="form-text text-danger"
+                                *ngIf="formularioControl2.direccion.errors.required || formularioControl2.direccion.errors.minlength || formularioControl2.direccion.errors.maxlength || formularioControl2.direccion.errors.pattern">
+                                La dirección es requerido, debe ser valido, no debe tener menos de 10 caracter y más de 150 caracteres</p>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-agregar btn-lg w-100" [disabled]="!formulario2.valid"
+                        (click)="agregar()" *ngIf="estaEnGestion == false" data-bs-dismiss="modal">Agregar</button>
+                    <button type="submit" class="btn-agregar btn-lg w-100" [disabled]="!formulario2.valid"
+                        (click)="editar()" *ngIf="estaEnGestion == true" data-bs-dismiss="modal">Editar</button>
+                    <button type="submit" class="btn-agregar btn-lg w-100 mt-3"
+                        (click)="eliminar()" *ngIf="estaEnGestion == true" data-bs-dismiss="modal">Eliminar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-agregar" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <app-footer></app-footer>

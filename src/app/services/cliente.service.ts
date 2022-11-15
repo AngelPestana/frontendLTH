@@ -27,15 +27,15 @@ export class ClienteService {
   getClientes2 (url: string) {
     let httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'application/json'
+        'Content-Type':  'application/json',
         //Siempre especificar el tipo de autorizacion
-        //Authorization: 'Bearer ' + localStorage.getItem('token')
+        Authorization: 'Bearer ' + localStorage.getItem('token')
       })
     };
     return this.http.get(url, httpOptions);
   }
 
-  getCliente(id: number) {
+  getCliente(id: number | undefined) {
     let httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
