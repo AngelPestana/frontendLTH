@@ -1,0 +1,222 @@
+<app-header></app-header>
+
+<section class="pt-0">
+	<div class="container mt-5 mb-5">
+		<div class="row">
+
+			<!-- Main content START -->
+			<div class="col-xl-12">
+				<div class="card bg-transparent border rounded-3">
+					<!-- Card header START -->
+					<div class="card-header bg-transparent border-bottom">
+						<div class="row">
+							<div class="col">
+								<h3 class="mb-0">Lista de usuarios</h3>
+							</div>
+							<div class="col">
+								<button type="button" class="btn-agregar float-end" (click)="obtenerUsuariosBase()">
+									<i class="bi bi-arrow-repeat"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+					<!-- Card header END -->
+
+					<!-- Card body START -->
+					<div class="card-body">
+
+						<!-- Search and select START -->
+						<div class="row g-3 align-items-center justify-content-between mb-4">
+							<!-- Content -->
+							<div class="col-md-8">
+								<form class="rounded position-relative" novalidate [formGroup]="formulario">
+									<input class="form-control pe-5 bg-transparent" type="search" placeholder="Buscar"
+										aria-label="Search" formControlName="busqueda">
+									<button
+										class="bg-transparent p-2 position-absolute top-50 end-0 translate-middle-y border-0 text-primary-hover text-reset"
+										[disabled]="!formulario.valid" type="button"
+										(click)="mostrarOtrosUsuarios2(urlBase + '/search')">
+										<i class="bi bi-search"></i>
+									</button>
+								</form>
+							</div>
+
+
+							<div class="col-md-3 text-center">
+								<!-- Aqui boton agregar -->
+								<a href="" class="btn-agregar w-100" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="entroEnAgregar()">Nuevo usuario</a>
+							</div>
+						</div>
+						<!-- Search and select END -->
+
+						<!-- Course list table START -->
+						<div class="table-responsive border-0">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">Local</th>
+										<th scope="col">Propietario</th>
+										<th scope="col">Encargado</th>
+										<th scope="col">Telefono</th>
+										<th scope="col">Direccion</th>
+										<th scope="col">Municipio</th>
+										<th scope="col">Estado</th>
+										<th scope="col">Descuento 1</th>
+										<th scope="col">Descuento 2</th>
+										<th scope="col">Gestión</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let usuario of usuarios" class="text-center">
+										<th scope="row">{{usuario.id}}</th>
+										<td>{{usuario.nombre}}</td>
+										<td>{{usuario.apellidos}}</td>
+										<td>{{usuario.email}}</td>
+										<td>{{usuario.rol}}</td>
+										<td>{{usuario.created_at}}</td>
+										<td>
+											<a href="" class="btn-agregar" data-bs-toggle="modal"
+                            				data-bs-target="#staticBackdrop" (click)="entroEnGestion(usuario.id)">
+                            					<i class="bi bi-pencil-square"></i></a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- Course list table END -->
+
+						<!-- Pagination START -->
+						<div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-4 mt-sm-3"
+							*ngIf="details != null">
+							<!-- Content -->
+							<p class="mb-0 text-center text-sm-start">Página {{details.currentPage}} de
+								{{details.pageCount}}</p>
+							<p class="mb-0 text-center text-sm-start">Hay un total de {{details.total}} registros</p>
+							<!-- Pagination -->
+							<nav class="d-flex justify-content-center mb-0" aria-label="navigation">
+								<ul
+									class="pagination pagination-sm pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+									<li class="page-item mb-0 disabled" *ngIf="details.previous == null"><a
+											class="page-link" href="#" tabindex="-1"><i
+												class="bi bi-caret-left"></i></a></li>
+									<li class="page-item mb-0" *ngIf="details.previous != null"><a class="page-link"
+											(click)="mostrarOtrosUsuarios(details.previous)" tabindex="-1"><i
+												class="bi bi-caret-left"></i></a></li>
+									<!--Numeros-->
+									<li class="page-item mb-0" *ngFor="let number of numbers">
+										<a class="page-link {{paginaActiva(details.currentPage, number)}}"
+											*ngIf="estaBuscando == false"
+											(click)="mostrarOtrosUsuarios(urlBase+'?'+details.pageSelector+'='+number)">{{number}}</a>
+										<a class="page-link {{paginaActiva(details.currentPage, number)}}"
+											*ngIf="estaBuscando == true"
+											(click)="mostrarOtrosUsuarios(urlBaseBusqueda+'/'+buscar+'?'+details.pageSelector+'='+number)">{{number}}</a>
+									</li>
+									<!--Fin Numeros-->
+									<li class="page-item mb-0 disabled" *ngIf="details.next == null"><a
+											class="page-link" href="#"><i class="bi bi-caret-right"></i></a></li>
+									<li class="page-item mb-0" *ngIf="details.next != null"><a class="page-link"
+											(click)="mostrarOtrosUsuarios(details.next)"><i
+												class="bi bi-caret-right"></i></a></li>
+								</ul>
+							</nav>
+						</div>
+						<!-- Pagination END -->
+					</div>
+					<!-- Card body START -->
+				</div>
+			</div>
+			<!-- Main content END -->
+		</div> <!-- Row END -->
+	</div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel" *ngIf="estaEnGestion == true">Gestión Usuario</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" *ngIf="estaEnGestion == false">Agregar Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="mb-2" novalidate [formGroup]="formulario2">
+                    <div class="position-relative mb-4">
+                        <label for="nombre" class="form-label fs-base">Nombre</label>
+                        <input type="text" id="nombre" class="form-control form-control-lg" formControlName="nombre">
+                        <div
+                            *ngIf="formularioControl2.nombre.errors && (formularioControl2.nombre.dirty || formularioControl2.nombre.touched)">
+                            <p class="form-text text-danger"
+                                *ngIf="formularioControl2.nombre.errors.required || formularioControl2.nombre.errors.minlength || formularioControl2.nombre.errors.maxlength || formularioControl2.nombre.errors.pattern">
+                                El nombre es requerido, debe ser valido, no debe tener menos de 3 caracteres y más de 45 caracteres</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="apellidos" class="form-label fs-base">Apellidos</label>
+                        <input type="text" id="apellidos" class="form-control form-control-lg" formControlName="apellidos">
+                        <div
+                            *ngIf="formularioControl2.apellidos.errors && (formularioControl2.apellidos.dirty || formularioControl2.apellidos.touched)">
+                            <p class="form-text text-danger"
+                                *ngIf="formularioControl2.apellidos.errors.required || formularioControl2.apellidos.errors.minlength || formularioControl2.apellidos.errors.maxlength || formularioControl2.apellidos.errors.pattern">
+                                El nombre del propietario es requerido, debe ser valido, no debe tener menos de 3 caracteres y más de 45 caracteres</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="email" class="form-label fs-base">Email</label>
+                        <input type="email" id="email" class="form-control form-control-lg" formControlName="email">
+                        <div
+                            *ngIf="formularioControl2.email.errors && (formularioControl2.email.dirty || formularioControl2.email.touched)">
+                            <p class="form-text text-danger"
+                                *ngIf="formularioControl2.email.errors.required || formularioControl2.email.errors.minlength || formularioControl2.email.errors.maxlength || formularioControl2.email.errors.pattern">
+                                El email es requerido, debe ser valido, no debe tener menos de 11 caracteres y más de 45 caracteres</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password" class="form-label fs-base">Contraseña</label>
+                        <input type="password" id="password" class="form-control form-control-lg" formControlName="password">
+                        <div
+                            *ngIf="formularioControl2.password.errors && (formularioControl2.password.dirty || formularioControl2.password.touched)">
+                            <p class="form-text text-danger"
+                                *ngIf="formularioControl2.password.errors.required || formularioControl2.password.errors.minlength || formularioControl2.password.errors.maxlength || formularioControl2.password.errors.pattern">
+                                La contraseña es requerido, debe ser valida, no debe tener menos de 8 caracteres y más de 20 caracteres</p>
+                        </div>
+                    </div>
+
+					<div class="mb-4">
+                        <label for="idRol" class="form-label fs-base">Rol</label>
+                        <select class="form-select form-control" id="idRol" formControlName="idRol">
+                            <option selected disabled>Seleccione...</option>
+                            <option value="Chiapas">Chiapas</option>
+                            <option value="Oaxaca">Oaxaca</option>
+                        </select>
+                        <div
+                            *ngIf="formularioControl2.idRol.errors && (formularioControl2.idRol.dirty || formularioControl2.idRol.touched)">
+                            <p class="form-text text-danger"
+                                *ngIf="formularioControl2.idRol.errors.required">
+                                El rol es requerido</p>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-agregar btn-lg w-100" [disabled]="!formulario2.valid"
+                        (click)="agregar()" *ngIf="estaEnGestion == false" data-bs-dismiss="modal">Agregar</button>
+                    <button type="submit" class="btn-agregar btn-lg w-100" [disabled]="!formulario2.valid"
+                        (click)="editar()" *ngIf="estaEnGestion == true" data-bs-dismiss="modal">Editar</button>
+                    <button type="submit" class="btn-agregar btn-lg w-100 mt-3"
+                        (click)="eliminar()" *ngIf="estaEnGestion == true" data-bs-dismiss="modal">Eliminar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-agregar" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>
