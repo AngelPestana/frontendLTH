@@ -1,19 +1,20 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Usuario } from '../models/Usuario';
+import { Bateria } from '../models/Bateria';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsuarioService {
+export class BateriaService {
+  url: string = 'http://localhost:8080/api/baterias';
+  url2: string = 'http://localhost:8080/api/costoGrupo';
 
-  url: string = 'http://localhost:8080/api/usuarios';
-  url2: string = 'http://localhost:8080/api/roles';
+  constructor(private http: HttpClient) {
 
-  constructor(private http: HttpClient) { }
+  }
 
-  getUsuarios () {
+  getBaterias () {
     let httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -24,7 +25,7 @@ export class UsuarioService {
     return this.http.get(this.url, httpOptions);
   }
 
-  getRoles() {
+  getGrupos() {
     let httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -35,7 +36,7 @@ export class UsuarioService {
     return this.http.get(this.url2, httpOptions);
   }
 
-  getUsuarios2 (url: string) {
+  getBaterias2 (url: string) {
     let httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -46,7 +47,7 @@ export class UsuarioService {
     return this.http.get(url, httpOptions);
   }
 
-  getUsuario(id: number | undefined) {
+  getBateria(id: number | undefined) {
     let httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -57,7 +58,7 @@ export class UsuarioService {
     return this.http.get(this.url + '/edit/' + id, httpOptions);
   }
 
-  postUsuario(usuario: Usuario): Observable<Usuario> {
+  postBateria(bateria: Bateria): Observable<Bateria> {
     let httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -65,10 +66,10 @@ export class UsuarioService {
         Authorization: 'Bearer ' + localStorage.getItem('token')
       })
     };
-    return this.http.post<Usuario>(this.url + '/create', usuario, httpOptions);
+    return this.http.post<Bateria>(this.url + '/create', bateria, httpOptions);
   }
 
-  putUsuario(usuario: Usuario, id: string): Observable<Usuario> {
+  putBateria(bateria: Bateria, id: string): Observable<Bateria> {
     let httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -76,10 +77,10 @@ export class UsuarioService {
         Authorization: 'Bearer ' + localStorage.getItem('token')
       })
     };
-    return this.http.put<Usuario>(this.url + '/update/' + id, usuario, httpOptions);
+    return this.http.put<Bateria>(this.url + '/update/' + id, bateria, httpOptions);
   }
 
-  deleteUsuario(id: string) {
+  deleteBateria(id: string) {
     let httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',

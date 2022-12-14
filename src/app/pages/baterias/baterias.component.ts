@@ -1,43 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-//import { NgxSpinnerService } from 'ngx-spinner';
-import { Details } from 'src/app/models/Details';
-import { Cliente } from 'src/app/models/Cliente';
-import { ClienteService } from 'src/app/services/cliente.service';
-import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
+import { Bateria } from 'src/app/models/Bateria';
+import { Details } from 'src/app/models/Details';
+import { Grupo } from 'src/app/models/Grupo';
+import { BateriaService } from 'src/app/services/bateria.service';
+import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-clientes',
-  templateUrl: './clientes.component.html',
-  styleUrls: ['./clientes.component.css']
+  selector: 'app-baterias',
+  templateUrl: './baterias.component.html',
+  styleUrls: ['./baterias.component.css']
 })
-export class ClientesComponent implements OnInit {
+export class BateriasComponent implements OnInit {
 
   formulario: any;
   formulario2: any;
   estaEnGestion: boolean = false;
   estaBuscando = false;
   buscar = '';
-  urlBaseBusqueda = 'http://localhost:8080/api/clientes/busqueda';
-  urlBase = 'http://localhost:8080/api/clientes';
-  url = 'http://localhost:8080/api/clientes';
-  clientes: Cliente[] = [];
-  cliente: Cliente | any;
+  urlBaseBusqueda = 'http://localhost:8080/api/baterias/busqueda';
+  urlBase = 'http://localhost:8080/api/baterias';
+  url = 'http://localhost:8080/api/baterias';
+  baterias: Bateria[] = [];
+  grupos: Grupo[] = [];
+  bateria: Bateria | any;
   details: Details | any;//por objeto
   numbers: number[] = [];
   GetSubscriptions: Subscription | any;
+  GetSubscriptions2: Subscription | any;
   GetSubscription: Subscription | any;
   PostSubscription: Subscription | any;
   PutSubscription: Subscription | any;
   DeleteSubscription: Subscription | any;
 
-  constructor(private service: ClienteService, private spinner: NgxSpinnerService, private router: Router) { }
+  constructor(private service: BateriaService, private spinner: NgxSpinnerService, private router: Router) { }
 
   ngOnInit(): void {
-    this.obtenerClientes();
+    this.obtenerBaterias();
+    this.obtenerGrupos();
     this.formularioReactivo();
   }
 
@@ -50,69 +53,33 @@ export class ClientesComponent implements OnInit {
       ])
     });
     this.formulario2 = new FormGroup({
-      nombreLocal: new FormControl('', [
-        Validators.required,
-        Validators.pattern("[a-zA-ZÑñ0-9 ]{3,45}"),
-        Validators.minLength(3),
-        Validators.maxLength(45)
-      ]),
-      nombrePropietario: new FormControl('', [
-        Validators.required,
-        Validators.pattern("[a-zA-ZÑñ ]{3,45}"),
-        Validators.minLength(3),
-        Validators.maxLength(45)
-      ]),
-      nombreEncargado: new FormControl('', [
-        Validators.required,
-        Validators.pattern("[a-zA-ZÑñ ]{3,45}"),
-        Validators.minLength(3),
-        Validators.maxLength(45)
-      ]),
-      telefono: new FormControl('', [
-        Validators.required,
-        Validators.pattern("[0-9]{10,10}"),
-        Validators.minLength(10),
-        Validators.maxLength(10)
-      ]),
-      municipio: new FormControl('', [
-        Validators.required,
-        Validators.pattern("[a-zA-Z ]{3,45}"),
-        Validators.minLength(3),
-        Validators.maxLength(45)
-      ]),
-      estado: new FormControl('', [
+      idCostoGrupo: new FormControl('', [
         Validators.required
       ]),
-      porcentajeDescuento: new FormControl('', [
+      tipo: new FormControl('', [
         Validators.required,
-        Validators.pattern("[0-9.]{1,5}"),
-        Validators.minLength(1),
-        Validators.maxLength(5)
+        Validators.pattern("[a-zA-ZÑñ0-9 /*()-]{3,45}"),//()/*\-
+        Validators.minLength(3),
+        Validators.maxLength(45)
       ]),
-      porcentajeDescuento2: new FormControl('', [
+      precioUsadoIva: new FormControl('', [
         Validators.required,
-        Validators.pattern("[0-9.]{1,5}"),
-        Validators.minLength(1),
-        Validators.maxLength(5)
-      ]),
-      direccion: new FormControl('', [
-        Validators.required,
-        Validators.pattern("[a-zA-Z0-9. ]{10,150}"),
-        Validators.minLength(10),
-        Validators.maxLength(150)
-      ]),
+        Validators.pattern("([0-9]{1,5})(.{1}[0-9]{1,2})?"),
+        Validators.minLength(3),
+        Validators.maxLength(8)
+      ])
     });
     //console.log(this.formulario);
   }
 
-  obtenerClientesBase() {
+  obtenerBateriasBase() {
     this.estaBuscando = false;
     this.formulario.reset();
     this.spinner.show();//Mostramos el loading
-    this.GetSubscriptions = this.service.getClientes().subscribe((res: any) => {
-      this.clientes = res.clientes;
+    this.GetSubscriptions = this.service.getBaterias().subscribe((res: any) => {
+      this.baterias = res.baterias;
       this.details = res.getDetails;
-      //console.log(this.clientes);
+      //console.log(this.baterias);
       //console.log(this.details);
       //console.log('siguiente: ' + this.details.next);
       //console.log('anterior: ' + this.details.previous);
@@ -127,18 +94,30 @@ export class ClientesComponent implements OnInit {
     }));
   }
 
-  obtenerClientes() {
+  obtenerBaterias() {
     this.spinner.show();//Mostramos el loading
     //console.log(this.url)
-    this.GetSubscriptions = this.service.getClientes2(this.url).subscribe((res: any) => {
-      this.clientes = res.clientes;
+    this.GetSubscriptions = this.service.getBaterias2(this.url).subscribe((res: any) => {
+      this.baterias = res.baterias;
       this.details = res.getDetails;
-      //console.log(this.clientes);
+      //console.log(this.baterias);
       //console.log(this.details);
       //console.log('siguiente: ' + this.details.next);
       //console.log('anterior: ' + this.details.previous);
       this.contar();
       this.cerrarLoading();
+    }, ((error: any) => {
+      //console.log(error);
+      this.cerrarLoading();
+      let mensajeErrorConEtiquetas = error.error.messages.error;
+      let mensajeError = mensajeErrorConEtiquetas.replace(/<[^>]*>?/g, '');
+      this.mensajeError2(mensajeError);
+    }));
+  }
+
+  obtenerGrupos() {
+    this.GetSubscriptions2 = this.service.getGrupos().subscribe((res: any) => {
+      this.grupos = res;
     }, ((error: any) => {
       //console.log(error);
       this.cerrarLoading();
@@ -176,19 +155,19 @@ export class ClientesComponent implements OnInit {
     })
   }
 
-  mostrarOtrosClientes(otroUrl: string) {
+  mostrarOtrosBaterias(otroUrl: string) {
     //console.log(otroUrl);
     this.url = otroUrl;
     //console.log(this.url);
-    this.obtenerClientes();
+    this.obtenerBaterias();
   }
 
-  mostrarOtrosClientes2(otroUrl: string) {//para el boton de busqueda
+  mostrarOtrosBaterias2(otroUrl: string) {//para el boton de busqueda
     //console.log(otroUrl);
     this.estaBuscando = true;
     this.buscar = this.formularioControl.busqueda.value;
     this.url = otroUrl + '/' + this.formularioControl.busqueda.value;
-    this.obtenerClientes();
+    this.obtenerBaterias();
   }
 
   mensajeError(mensaje: string) {
@@ -216,10 +195,10 @@ export class ClientesComponent implements OnInit {
     this.estaEnGestion = true;
     this.formulario2.reset();//vaciamos el formulario
     this.spinner.show();//Mostramos el loading
-    this.GetSubscription = this.service.getCliente(id).subscribe((res: any) => {
+    this.GetSubscription = this.service.getBateria(id).subscribe((res: any) => {
       //dentro del subscribe estaran los datos consultados de la api, fuera de este no tendras nada
-      this.cliente = res;
-      //console.log(this.cliente);
+      this.bateria = res;
+      //console.log(this.bateria);
       //console.log(this.administrador);
       this.presentandoDatos();
     });
@@ -227,15 +206,9 @@ export class ClientesComponent implements OnInit {
 
   presentandoDatos() {
     this.formulario2.patchValue({
-      nombreLocal: this.cliente.nombreLocal,
-      nombrePropietario: this.cliente.nombrePropietario,
-      nombreEncargado: this.cliente.nombreEncargado,
-      telefono: this.cliente.telefono,
-      direccion: this.cliente.direccion,
-      municipio: this.cliente.municipio,
-      estado: this.cliente.estado,
-      porcentajeDescuento: this.cliente.porcentajeDescuento,
-      porcentajeDescuento2: this.cliente.porcentajeDescuento2
+      idCostoGrupo: this.bateria.nombreLocal,
+      tipo: this.bateria.nombrePropietario,
+      precioUsadoIva: this.bateria.nombreEncargado
     });
     this.cerrarLoading();
   }
@@ -243,21 +216,15 @@ export class ClientesComponent implements OnInit {
   agregar() {
     this.spinner.show();//Mostramos el loading
     //console.log('con que quieres agregar verdad prro!!');
-    let cliente = new Cliente();
-    cliente.nombreLocal = this.formulario2.value.nombreLocal;
-    cliente.nombrePropietario = this.formulario2.value.nombrePropietario;
-    cliente.nombreEncargado = this.formulario2.value.nombreEncargado;
-    cliente.telefono = this.formulario2.value.telefono;
-    cliente.direccion = this.formulario2.value.direccion;
-    cliente.municipio = this.formulario2.value.municipio;
-    cliente.estado = this.formulario2.value.estado;
-    cliente.porcentajeDescuento = this.formulario2.value.porcentajeDescuento;
-    cliente.porcentajeDescuento2 = this.formulario2.value.porcentajeDescuento2;
-    //console.log(cliente);
-    this.PostSubscription = this.service.postCliente(cliente).subscribe((res: any) => {
+    let bateria = new Bateria();
+    bateria.idCostoGrupo = this.formulario2.value.idCostoGrupo;
+    bateria.precioUsadoIva = this.formulario2.value.precioUsadoIva;
+    bateria.tipo = this.formulario2.value.tipo;
+    //console.log(bateria);
+    this.PostSubscription = this.service.postBateria(bateria).subscribe((res: any) => {
       //console.log(res);
       this.cerrarLoading();
-      let mensaje = 'Se agregó el cliente con exito!!';
+      let mensaje = 'Se agregó el bateria con exito!!';
       this.mensajeExito(mensaje);
     }, (error: any) => {
       this.cerrarLoading();
@@ -284,7 +251,7 @@ export class ClientesComponent implements OnInit {
 
   editar() {
     let opcion = 2;
-    let titulo = "¿Esta seguro que desea editar este cliente?";
+    let titulo = "¿Esta seguro que desea editar este bateria?";
     let texto = "¡Esto va actualizar el registro!";
     let textoBtnConfirm = "¡Si, editar!"
     let textoBtnCancel = "¡No, cancelar!"
@@ -293,10 +260,10 @@ export class ClientesComponent implements OnInit {
 
   eliminacionConfirmada() {
     this.spinner.show();//Mostramos el loading
-    this.DeleteSubscription = this.service.deleteCliente(this.cliente.id).subscribe((res: any) => {
+    this.DeleteSubscription = this.service.deleteBateria(this.bateria.id).subscribe((res: any) => {
       //console.log(res);
       this.cerrarLoading();
-      let mensaje = 'Se eliminó el cliente con exito!!';
+      let mensaje = 'Se eliminó el bateria con exito!!';
       this.mensajeExito(mensaje);
     }, (error: any) => {
       this.cerrarLoading();
@@ -311,21 +278,15 @@ export class ClientesComponent implements OnInit {
     //this.mensajeDialogo(opcion, titulo, texto, textoBtnConfirm, textoBtnCancel);
     this.spinner.show();//Mostramos el loading
     //console.log('con que quieres agregar verdad prro!!');
-    let cliente = new Cliente();
-    cliente.nombreLocal = this.formulario2.value.nombreLocal;
-    cliente.nombrePropietario = this.formulario2.value.nombrePropietario;
-    cliente.nombreEncargado = this.formulario2.value.nombreEncargado;
-    cliente.telefono = this.formulario2.value.telefono;
-    cliente.direccion = this.formulario2.value.direccion;
-    cliente.municipio = this.formulario2.value.municipio;
-    cliente.estado = this.formulario2.value.estado;
-    cliente.porcentajeDescuento = this.formulario2.value.porcentajeDescuento;
-    cliente.porcentajeDescuento2 = this.formulario2.value.porcentajeDescuento2;
-    //console.log(cliente);
-    this.PutSubscription = this.service.putCliente(cliente, this.cliente.id).subscribe((res: any) => {
+    let bateria = new Bateria();
+    bateria.idCostoGrupo = this.formulario2.value.idCostoGrupo;
+    bateria.precioUsadoIva = this.formulario2.value.precioUsadoIva;
+    bateria.tipo = this.formulario2.value.tipo;
+    //console.log(bateria);
+    this.PutSubscription = this.service.putBateria(bateria, this.bateria.id).subscribe((res: any) => {
       //console.log(res);
       this.cerrarLoading();
-      let mensaje = 'Se editó el cliente con exito!!';
+      let mensaje = 'Se editó el bateria con exito!!';
       this.mensajeExito(mensaje);
     }, (error: any) => {
       this.cerrarLoading();
@@ -373,7 +334,7 @@ export class ClientesComponent implements OnInit {
 
   eliminar() {
     let opcion = 1;
-    let titulo = "¿Esta seguro que desea eliminar este cliente?";
+    let titulo = "¿Esta seguro que desea eliminar este bateria?";
     let texto = "¡Esto no se podrá revertir!";
     let textoBtnConfirm = "¡Si, eliminar!"
     let textoBtnCancel = "¡No, cancelar!"
@@ -390,6 +351,7 @@ export class ClientesComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.GetSubscriptions.unsubscribe();
+    this.GetSubscriptions2.unsubscribe();
     if (this.GetSubscription != null || this.GetSubscription != undefined) {
       this.GetSubscription.unsubscribe();
       //console.log('se elimino el get edit')

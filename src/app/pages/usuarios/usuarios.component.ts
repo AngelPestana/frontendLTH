@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
 import { Details } from 'src/app/models/Details';
+import { Rol } from 'src/app/models/Rol';
 import { Usuario } from 'src/app/models/Usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import Swal from 'sweetalert2';
@@ -24,10 +25,12 @@ export class UsuariosComponent implements OnInit {
   urlBase = 'http://localhost:8080/api/usuarios';
   url = 'http://localhost:8080/api/usuarios';
   usuarios: Usuario[] = [];
+  roles: Rol[] = [];
   usuario: Usuario | any;
   details: Details | any;//por objeto
   numbers: number[] = [];
   GetSubscriptions: Subscription | any;
+  GetSubscriptions2: Subscription | any;//para los roles
   GetSubscription: Subscription | any;
   PostSubscription: Subscription | any;
   PutSubscription: Subscription | any;
@@ -37,6 +40,7 @@ export class UsuariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerUsuarios();
+    this.obtenerRoles();
     this.formularioReactivo();
   }
 
@@ -51,27 +55,27 @@ export class UsuariosComponent implements OnInit {
     this.formulario2 = new FormGroup({
       nombre: new FormControl('', [
         Validators.required,
-        Validators.pattern("[a-zA-ZÑñ0-9 ]{3,45}"),
+        Validators.pattern("[a-zA-ZñÑ ]{3,45}"),
         Validators.minLength(3),
         Validators.maxLength(45)
       ]),
       apellidos: new FormControl('', [
         Validators.required,
-        Validators.pattern("[a-zA-ZÑñ ]{3,45}"),
+        Validators.pattern("[a-zA-ZñÑ ]{3,45}"),
         Validators.minLength(3),
         Validators.maxLength(45)
       ]),
       email: new FormControl('', [
         Validators.required,
-        Validators.pattern("[a-zA-ZÑñ ]{3,45}"),
-        Validators.minLength(3),
+        Validators.pattern("^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"),
+        Validators.minLength(11),
         Validators.maxLength(45)
       ]),
       password: new FormControl('', [
         Validators.required,
-        Validators.pattern("[0-9]{10,10}"),
-        Validators.minLength(10),
-        Validators.maxLength(10)
+        Validators.pattern("[a-zA-ZñÑ0-9!?-]{8,12}"),
+        Validators.minLength(8),
+        Validators.maxLength(12)
       ]),
       idRol: new FormControl('', [
         Validators.required
@@ -87,8 +91,8 @@ export class UsuariosComponent implements OnInit {
     this.GetSubscriptions = this.service.getUsuarios().subscribe((res: any) => {
       this.usuarios = res.usuarios;
       this.details = res.getDetails;
-      console.log(this.usuarios);
-      console.log(this.details);
+      //console.log(this.usuarios);
+      //console.log(this.details);
       //console.log('siguiente: ' + this.details.next);
       //console.log('anterior: ' + this.details.previous);
       this.contar();
@@ -117,6 +121,23 @@ export class UsuariosComponent implements OnInit {
     }, ((error: any) => {
       //console.log(error);
       this.cerrarLoading();
+      let mensajeErrorConEtiquetas = error.error.messages.error;
+      let mensajeError = mensajeErrorConEtiquetas.replace(/<[^>]*>?/g, '');
+      this.mensajeError2(mensajeError);
+    }));
+  }
+
+  obtenerRoles() {
+    this.GetSubscriptions2 = this.service.getRoles().subscribe((res: any) => {
+      this.roles = res;
+      //console.log(this.usuarios);
+      //console.log(this.details);
+      //console.log('siguiente: ' + this.details.next);
+      //console.log('anterior: ' + this.details.previous);
+      //this.cerrarLoading();
+    }, ((error: any) => {
+      //console.log(error);
+      //this.cerrarLoading();
       let mensajeErrorConEtiquetas = error.error.messages.error;
       let mensajeError = mensajeErrorConEtiquetas.replace(/<[^>]*>?/g, '');
       this.mensajeError2(mensajeError);
@@ -285,9 +306,12 @@ export class UsuariosComponent implements OnInit {
     usuario.apellidos = this.formulario2.value.apellidos;
     if (this.usuario['email'] != this.formulario2.value.email){//Si hay un gmail diferente entonces realiza el cambio
       usuario.email = this.formulario2.value.email;
+      console.log('edito gmail');
     }
-    if (this.formulario2.value.password !== undefined || this.formulario2.value.password !== null){
+    if (this.formulario2.value.password !== null){
+      //console.log(this.formulario2.value.password);
       usuario.password = this.formulario2.value.password;
+      //console.log('Entro en contraseña');
     }
     usuario.idRol = this.formulario2.value.idRol;
     //console.log(usuario);
@@ -349,6 +373,13 @@ export class UsuariosComponent implements OnInit {
     this.mensajeDialogo(opcion, titulo, texto, textoBtnConfirm, textoBtnCancel);
   }
 
+  validacionEdicion():boolean {
+    if ((this.formulario2.controls.password.status === 'INVALID' || this.formulario2.controls.password.status === 'VALID') && this.formulario2.controls.nombre.status === 'VALID' && this.formulario2.controls.apellidos.status === 'VALID' && this.formulario2.controls.email.status === 'VALID' && this.formulario2.controls.idRol.status === 'VALID') {
+      return false;
+    }
+    return true;
+  }
+
   get formularioControl() {//NO borrar
     return this.formulario.controls;
   }
@@ -359,6 +390,7 @@ export class UsuariosComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.GetSubscriptions.unsubscribe();
+    this.GetSubscriptions2.unsubscribe();
     if (this.GetSubscription != null || this.GetSubscription != undefined) {
       this.GetSubscription.unsubscribe();
       //console.log('se elimino el get edit')
