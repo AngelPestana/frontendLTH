@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
+import { Codificar } from 'src/app/helpers/Codificar';
 import { Bateria } from 'src/app/models/Bateria';
 import { Details } from 'src/app/models/Details';
 import { Grupo } from 'src/app/models/Grupo';
@@ -21,7 +22,7 @@ export class BateriasComponent implements OnInit {
   estaEnGestion: boolean = false;
   estaBuscando = false;
   buscar = '';
-  urlBaseBusqueda = 'http://localhost:8080/api/baterias/busqueda';
+  urlBaseBusqueda = 'http://localhost:8080/api/baterias/search';
   urlBase = 'http://localhost:8080/api/baterias';
   url = 'http://localhost:8080/api/baterias';
   baterias: Bateria[] = [];
@@ -165,8 +166,10 @@ export class BateriasComponent implements OnInit {
   mostrarOtrosBaterias2(otroUrl: string) {//para el boton de busqueda
     //console.log(otroUrl);
     this.estaBuscando = true;
-    this.buscar = this.formularioControl.busqueda.value;
-    this.url = otroUrl + '/' + this.formularioControl.busqueda.value;
+    let diagonalQuitado = Codificar.codificarDiagonal(this.formularioControl.busqueda.value);
+    //console.log(diagonalQuitado);
+    this.buscar = diagonalQuitado;
+    this.url = otroUrl + '/' + diagonalQuitado;
     this.obtenerBaterias();
   }
 
@@ -206,9 +209,9 @@ export class BateriasComponent implements OnInit {
 
   presentandoDatos() {
     this.formulario2.patchValue({
-      idCostoGrupo: this.bateria.nombreLocal,
-      tipo: this.bateria.nombrePropietario,
-      precioUsadoIva: this.bateria.nombreEncargado
+      idCostoGrupo: this.bateria.idCostoGrupo,
+      tipo: this.bateria.tipo,
+      precioUsadoIva: this.bateria.precioUsadoIva
     });
     this.cerrarLoading();
   }
