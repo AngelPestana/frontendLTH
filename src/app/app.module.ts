@@ -13,6 +13,7 @@ import { ClientesComponent } from './pages/clientes/clientes.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { BateriasComponent } from './pages/baterias/baterias.component';
+import { ConsultarPrecioComponent } from './pages/consultar-precio/consultar-precio.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { BateriasComponent } from './pages/baterias/baterias.component';
     ClientesComponent,
     UsuariosComponent,
     BateriasComponent,
+    ConsultarPrecioComponent,
   ],
   imports: [
     BrowserModule,

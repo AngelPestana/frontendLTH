@@ -90,4 +90,15 @@ export class BateriaService {
     };
     return this.http.delete(this.url + '/delete/' + id, httpOptions);
   }
+
+  getPrecioAlCliente(idCliente: number, idBateria: number) {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        //Siempre especificar el tipo de autorizacion
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      })
+    };
+    return this.http.get(this.url + '/precioCliente/' + idCliente + '/' + idBateria, httpOptions);
+  }
 }

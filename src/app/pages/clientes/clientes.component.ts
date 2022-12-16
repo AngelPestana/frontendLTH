@@ -162,7 +162,7 @@ export class ClientesComponent implements OnInit {
     }
   }
 
-  mensajeError2(mensaje: string) {
+  mensajeError2(mensaje: string) {//En caso que para consultar los datos de la tabla salga con error entonces que muestre este alert
     Swal.fire({
       icon: 'error',
       title: mensaje,
@@ -176,7 +176,7 @@ export class ClientesComponent implements OnInit {
     })
   }
 
-  mostrarOtrosClientes(otroUrl: string) {
+  mostrarOtrosClientes(otroUrl: string) {//para la paginacion
     //console.log(otroUrl);
     this.url = otroUrl;
     //console.log(this.url);
@@ -191,7 +191,7 @@ export class ClientesComponent implements OnInit {
     this.obtenerClientes();
   }
 
-  mensajeError(mensaje: string) {
+  mensajeError(mensaje: string) {//este alert es para el crud en caso de error
     Swal.fire({
       icon: 'error',
       title: mensaje,
