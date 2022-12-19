@@ -1,0 +1,139 @@
+<app-header></app-header>
+
+<section class="pt-0">
+	<div class="container mt-5 mb-5">
+		<div class="row">
+
+			<!-- Main content START -->
+			<div class="col-xl-12">
+				<div class="card bg-transparent border rounded-3">
+					<!-- Card header START -->
+					<div class="card-header bg-transparent border-bottom">
+						<div class="row">
+							<div class="col">
+								<h3 class="mb-0">Lista de pedidos</h3>
+							</div>
+							<div class="col">
+								<button type="button" class="btn-agregar float-end" (click)="obtenerPedidosBase()">
+									<i class="bi bi-arrow-repeat"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+					<!-- Card header END -->
+
+					<!-- Card body START -->
+					<div class="card-body">
+
+						<!-- Search and select START -->
+						<div class="row g-3 align-items-center justify-content-between mb-4">
+							<!-- Content -->
+							<div class="col-md-8">
+								<form class="rounded" novalidate [formGroup]="formulario">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <input type="search" class="form-control" placeholder="Buscar" aria-label="busqueda" formControlName="busqueda">
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input type="date" class="form-control" placeholder="Buscar por fecha" aria-label="busqueda2" formControlName="busqueda2">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button
+										class="btn-buscar w-100"
+										[disabled]="validacion()" type="button"
+										(click)="mostrarOtrosPedidos2(urlBase + '/search')">
+										<i class="bi bi-search"></i>
+									    </button>
+                                        </div>
+                                      </div>
+								</form>
+							</div>
+
+
+							<div class="col-md-3 text-center">
+								<!-- Aqui boton agregar -->
+								<a class="btn-agregar w-100">Nuevo pedido</a>
+							</div>
+						</div>
+						<!-- Search and select END -->
+
+						<!-- Course list table START -->
+						<div class="table-responsive border-0">
+							<table class="table table-hover">
+								<thead>
+									<tr class="text-center">
+										<th scope="col">#</th>
+										<th scope="col">Total precio en lista</th>
+										<th scope="col">Total del descuento</th>
+										<th scope="col">Total aplicando descuento</th>
+										<th scope="col">Total sumando los cascos</th>
+										<th scope="col">Fecha</th>
+                                        <th scope="col">Cliente</th>
+										<th scope="col">Gestión</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let pedido of pedidos" class="text-center">
+										<th scope="row">{{pedido.id}}</th>
+										<td>{{pedido.totalSinDescuento}}</td>
+										<td>{{pedido.totalDescuento}}</td>
+										<td>{{pedido.totalConDescuento}}</td>
+										<td>{{pedido.totalMasCasco}}</td>
+										<td>{{pedido.fecha}}</td>
+                                        <td>{{pedido.Cliente}}</td>
+										<td>
+											<a href="" class="btn-agregar">
+                            					<i class="bi bi-pencil-square"></i></a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- Course list table END -->
+
+						<!-- Pagination START -->
+						<div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-4 mt-sm-3"
+							*ngIf="details != null">
+							<!-- Content -->
+							<p class="mb-0 text-center text-sm-start">Página {{details.currentPage}} de
+								{{details.pageCount}}</p>
+							<p class="mb-0 text-center text-sm-start">Hay un total de {{details.total}} registros</p>
+							<!-- Pagination -->
+							<nav class="d-flex justify-content-center mb-0" aria-label="navigation">
+								<ul
+									class="pagination pagination-sm pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+									<li class="page-item mb-0 disabled" *ngIf="details.previous == null"><a
+											class="page-link" href="#" tabindex="-1"><i
+												class="bi bi-caret-left"></i></a></li>
+									<li class="page-item mb-0" *ngIf="details.previous != null"><a class="page-link"
+											(click)="mostrarOtrosPedidos(details.previous)" tabindex="-1"><i
+												class="bi bi-caret-left"></i></a></li>
+									<!--Numeros-->
+									<li class="page-item mb-0" *ngFor="let number of numbers">
+										<a class="page-link {{paginaActiva(details.currentPage, number)}}"
+											*ngIf="estaBuscando == false"
+											(click)="mostrarOtrosPedidos(urlBase+'?'+details.pageSelector+'='+number)">{{number}}</a>
+										<a class="page-link {{paginaActiva(details.currentPage, number)}}"
+											*ngIf="estaBuscando == true"
+											(click)="mostrarOtrosPedidos(urlBaseBusqueda+'/'+buscar+'/'+buscar2+'?'+details.pageSelector+'='+number)">{{number}}</a>
+									</li>
+									<!--Fin Numeros-->
+									<li class="page-item mb-0 disabled" *ngIf="details.next == null"><a
+											class="page-link" href="#"><i class="bi bi-caret-right"></i></a></li>
+									<li class="page-item mb-0" *ngIf="details.next != null"><a class="page-link"
+											(click)="mostrarOtrosPedidos(details.next)"><i
+												class="bi bi-caret-right"></i></a></li>
+								</ul>
+							</nav>
+						</div>
+						<!-- Pagination END -->
+					</div>
+					<!-- Card body START -->
+				</div>
+			</div>
+			<!-- Main content END -->
+		</div> <!-- Row END -->
+	</div>
+</section>
+
+<app-footer></app-footer>

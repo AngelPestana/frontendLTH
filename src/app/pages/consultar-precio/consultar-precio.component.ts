@@ -27,7 +27,7 @@ export class ConsultarPrecioComponent implements OnInit {
 
   estaBuscando = false;
   buscar = '';
-  urlBaseBusqueda = 'http://localhost:8080/api/clientes/busqueda';
+  urlBaseBusqueda = 'http://localhost:8080/api/clientes/search';
   urlBase = 'http://localhost:8080/api/clientes';
   url = 'http://localhost:8080/api/clientes';
   clientes: Cliente[] = [];

@@ -4,6 +4,7 @@ import { BateriasComponent } from './pages/baterias/baterias.component';
 import { ClientesComponent } from './pages/clientes/clientes.component';
 import { ConsultarPrecioComponent } from './pages/consultar-precio/consultar-precio.component';
 import { HomeComponent } from './pages/home/home.component';
+import { PedidosComponent } from './pages/pedidos/pedidos.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 
 const routes: Routes = [
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'consultar-precio',
     component: ConsultarPrecioComponent
+  },
+  {
+    path: 'pedidos',
+    component: PedidosComponent
   }
 ];
 

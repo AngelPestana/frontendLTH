@@ -21,7 +21,7 @@ export class UsuariosComponent implements OnInit {
   estaEnGestion: boolean = false;
   estaBuscando = false;
   buscar = '';
-  urlBaseBusqueda = 'http://localhost:8080/api/usuarios/busqueda';
+  urlBaseBusqueda = 'http://localhost:8080/api/usuarios/search';
   urlBase = 'http://localhost:8080/api/usuarios';
   url = 'http://localhost:8080/api/usuarios';
   usuarios: Usuario[] = [];
