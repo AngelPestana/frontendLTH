@@ -271,7 +271,7 @@
                             <tr class="text-center">
                                 <th scope="col">Cliente</th>
                                 <th scope="col">Tipo de bateria</th>
-                                <th scope="col">Precio</th>
+                                <th scope="col">Precio en lista</th>
                                 <th scope="col">Precio con descuento</th>
                                 <th scope="col">Precio sin usado</th>
                                 <th scope="col">Precio con usado</th>
@@ -281,10 +281,10 @@
                             <tr class="text-center" *ngIf="precioCliente != undefined">
                                 <td>{{precioCliente.Cliente}}</td>
                                 <td>{{precioCliente.tipoBateria}}</td>
-                                <td>{{precioCliente.precio}}</td>
+                                <td>{{precioCliente.precioLista}}</td>
                                 <td>{{precioCliente.precioDescuento}}</td>
-                                <td>{{precioCliente.sinUsado}}</td>
-                                <td>{{precioCliente.conUsado}}</td>
+                                <td>{{precioCliente.precioMasCasco}}</td>
+                                <td>{{precioCliente.precioMenosCascoUsado}}</td>
                             </tr>
                         </tbody>
                     </table>

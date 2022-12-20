@@ -1,1 +1,349 @@
-<p>pedidos-gestion works!</p>
+<app-header></app-header>
+
+<div *ngIf="idCliente == 0 || paso1 == false">
+    <section class="pt-0">
+        <div class="container mt-3 mb-3">
+            <h3 class="text-center mb-3">Seleccione al cliente</h3>
+            <h5 class="text-center text-danger" *ngIf="idCliente == 0">El cliente es requerido</h5>
+            <div class="row">
+                <!-- Main content START -->
+                <div class="col-xl-12">
+                    <div class="card bg-transparent border rounded-3">
+                        <!-- Card header START -->
+                        <div class="card-header bg-transparent border-bottom">
+                            <div class="row">
+                                <div class="col">
+                                    <h3 class="mb-0">Lista de clientes</h3>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn-agregar float-end" (click)="obtenerClientesBase()">
+                                        <i class="bi bi-arrow-repeat"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card header END -->
+
+                        <!-- Card body START -->
+                        <div class="card-body">
+
+                            <!-- Search and select START -->
+                            <div class="row g-3 align-items-center justify-content-between mb-4">
+                                <!-- Content -->
+                                <div class="col-md-8">
+                                    <form class="rounded position-relative" novalidate [formGroup]="formBusqueda1">
+                                        <input class="form-control pe-5 bg-transparent" type="search"
+                                            placeholder="Buscar cliente" aria-label="Search"
+                                            formControlName="busqueda1">
+                                        <button
+                                            class="bg-transparent p-2 position-absolute top-50 end-0 translate-middle-y border-0 text-primary-hover text-reset"
+                                            [disabled]="!formBusqueda1.valid" type="button"
+                                            (click)="mostrarOtrosClientes2(urlBase + '/search')">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- Search and select END -->
+
+                            <!-- Course list table START -->
+                            <div class="table-responsive border-0">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th scope="col">#</th>
+                                            <th scope="col">Local</th>
+                                            <th scope="col">Propietario</th>
+                                            <th scope="col">Encargado</th>
+                                            <th scope="col">Telefono</th>
+                                            <th scope="col">Direccion</th>
+                                            <th scope="col">Municipio</th>
+                                            <th scope="col">Estado</th>
+                                            <th scope="col">Descuento 1</th>
+                                            <th scope="col">Descuento 2</th>
+                                            <th scope="col">Seleccione</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let cliente of clientes" class="text-center">
+                                            <th scope="row">{{cliente.id}}</th>
+                                            <td>{{cliente.nombreLocal}}</td>
+                                            <td>{{cliente.nombrePropietario}}</td>
+                                            <td>{{cliente.nombreEncargado}}</td>
+                                            <td>{{cliente.telefono}}</td>
+                                            <td>{{cliente.direccion}}</td>
+                                            <td>{{cliente.municipio}}</td>
+                                            <td>{{cliente.estado}}</td>
+                                            <td>{{cliente.porcentajeDescuento}} %</td>
+                                            <td>{{cliente.porcentajeDescuento2}} %</td>
+                                            <td>
+                                                <input class="form-check-input radio-center" type="radio"
+                                                    name="idCliente" (click)="establecerIdCliente(cliente.id)">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Course list table END -->
+
+                            <!-- Pagination START -->
+                            <div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-4 mt-sm-3"
+                                *ngIf="details1 != null">
+                                <!-- Content -->
+                                <p class="mb-0 text-center text-sm-start">Página {{details1.currentPage}} de
+                                    {{details1.pageCount}}</p>
+                                <p class="mb-0 text-center text-sm-start">Hay un total de {{details1.total}} registros
+                                </p>
+                                <!-- Pagination -->
+                                <nav class="d-flex justify-content-center mb-0" aria-label="navigation">
+                                    <ul
+                                        class="pagination pagination-sm pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+                                        <li class="page-item mb-0 disabled" *ngIf="details1.previous == null"><a
+                                                class="page-link" href="#" tabindex="-1"><i
+                                                    class="bi bi-caret-left"></i></a></li>
+                                        <li class="page-item mb-0" *ngIf="details1.previous != null"><a
+                                                class="page-link" (click)="mostrarOtrosClientes(details1.previous)"
+                                                tabindex="-1"><i class="bi bi-caret-left"></i></a></li>
+                                        <!--Numeros-->
+                                        <li class="page-item mb-0" *ngFor="let number of numbers">
+                                            <a class="page-link {{paginaActiva(details1.currentPage, number)}}"
+                                                *ngIf="estaBuscando == false"
+                                                (click)="mostrarOtrosClientes(urlBase+'?'+details1.pageSelector+'='+number)">{{number}}</a>
+                                            <a class="page-link {{paginaActiva(details1.currentPage, number)}}"
+                                                *ngIf="estaBuscando == true"
+                                                (click)="mostrarOtrosClientes(urlBaseBusqueda+'/'+buscar+'?'+details1.pageSelector+'='+number)">{{number}}</a>
+                                        </li>
+                                        <!--Fin Numeros-->
+                                        <li class="page-item mb-0 disabled" *ngIf="details1.next == null"><a
+                                                class="page-link" href="#"><i class="bi bi-caret-right"></i></a></li>
+                                        <li class="page-item mb-0" *ngIf="details1.next != null"><a class="page-link"
+                                                (click)="mostrarOtrosClientes(details1.next)"><i
+                                                    class="bi bi-caret-right"></i></a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <!-- Pagination END -->
+                        </div>
+                        <!-- Card body START -->
+                    </div>
+                </div>
+                <!-- Main content END -->
+            </div> <!-- Row END -->
+        </div>
+    </section>
+
+    <div class="container mb-3">
+        <div class="text-center">
+            <button class="btn-agregar" [disabled]="checarIdCliente()" (click)="paso1Completado()">
+                Siguiente
+            </button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="paso1 == true && paso2 == false">
+    <!--Lista de baterias-->
+    <section class="pt-0">
+        <div class="container mt-5 mb-3">
+            <h3 class="text-center mb-3">Agregue las baterias a su pedido</h3>
+            <div class="row">
+                <!-- Main content START -->
+                <div class="col-xl-12">
+                    <div class="card bg-transparent border rounded-3">
+                        <!-- Card header START -->
+                        <div class="card-header bg-transparent border-bottom">
+                            <div class="row">
+                                <div class="col">
+                                    <h3 class="mb-0">Lista de baterias</h3>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn-agregar float-end" (click)="obtenerBateriasBase()">
+                                        <i class="bi bi-arrow-repeat"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card header END -->
+
+                        <!-- Card body START -->
+                        <div class="card-body">
+
+                            <!-- Search and select START -->
+                            <div class="row g-3 align-items-center justify-content-between mb-4">
+                                <!-- Content -->
+                                <div class="col-md-8">
+                                    <form class="rounded position-relative" novalidate [formGroup]="formBusqueda2">
+                                        <input class="form-control pe-5 bg-transparent" type="search"
+                                            placeholder="Buscar" aria-label="Search" formControlName="busqueda2">
+                                        <button
+                                            class="bg-transparent p-2 position-absolute top-50 end-0 translate-middle-y border-0 text-primary-hover text-reset"
+                                            [disabled]="!formBusqueda2.valid" type="button"
+                                            (click)="mostrarOtrosBaterias2(urlBase2 + '/search')">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- Search and select END -->
+
+                            <!-- Course list table START -->
+                            <div class="table-responsive border-0">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th scope="col">#</th>
+                                            <th scope="col">Tipo</th>
+                                            <th scope="col">Precio</th>
+                                            <th scope="col">Grupo</th>
+                                            <th scope="col">Creado en</th>
+                                            <th scope="col">Agregue</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let bateria of baterias" class="text-center">
+                                            <th scope="row">{{bateria.id}}</th>
+                                            <td>{{bateria.tipo}}</td>
+                                            <td>{{bateria.precioUsadoIva}}</td>
+                                            <td>{{bateria.grupo}}</td>
+                                            <td>{{bateria.created_at}}</td>
+                                            <td>
+                                                <button class="btn-agregar" type="button"
+                                                    (click)="obtenerCantidad(bateria.id)" [disabled]="checarId(bateria.id)">
+                                                    Agregar al pedido
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Course list table END -->
+
+                            <!-- Pagination START -->
+                            <div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-4 mt-sm-3"
+                                *ngIf="details2 != null">
+                                <!-- Content -->
+                                <p class="mb-0 text-center text-sm-start">Página {{details2.currentPage}} de
+                                    {{details2.pageCount}}</p>
+                                <p class="mb-0 text-center text-sm-start">Hay un total de {{details2.total}} registros
+                                </p>
+                                <!-- Pagination -->
+                                <nav class="d-flex justify-content-center mb-0" aria-label="navigation">
+                                    <ul
+                                        class="pagination pagination-sm pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+                                        <li class="page-item mb-0 disabled" *ngIf="details2.previous == null"><a
+                                                class="page-link" href="#" tabindex="-1"><i
+                                                    class="bi bi-caret-left"></i></a></li>
+                                        <li class="page-item mb-0" *ngIf="details2.previous != null"><a
+                                                class="page-link" (click)="mostrarOtrosBaterias(details2.previous)"
+                                                tabindex="-1"><i class="bi bi-caret-left"></i></a></li>
+                                        <!--Numeros-->
+                                        <li class="page-item mb-0" *ngFor="let number2 of numbers2">
+                                            <a class="page-link {{paginaActiva2(details2.currentPage, number2)}}"
+                                                *ngIf="estaBuscando2 == false"
+                                                (click)="mostrarOtrosBaterias(urlBase2+'?'+details2.pageSelector+'='+number2)">{{number2}}</a>
+                                            <a class="page-link {{paginaActiva2(details2.currentPage, number2)}}"
+                                                *ngIf="estaBuscando2 == true"
+                                                (click)="mostrarOtrosBaterias(urlBaseBusqueda2+'/'+buscar2+'?'+details2.pageSelector+'='+number2)">{{number2}}</a>
+                                        </li>
+                                        <!--Fin Numeros-->
+                                        <li class="page-item mb-0 disabled" *ngIf="details2.next == null"><a
+                                                class="page-link" href="#"><i class="bi bi-caret-right"></i></a></li>
+                                        <li class="page-item mb-0" *ngIf="details2.next != null"><a class="page-link"
+                                                (click)="mostrarOtrosBaterias(details2.next)"><i
+                                                    class="bi bi-caret-right"></i></a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <!-- Pagination END -->
+                        </div>
+                        <!-- Card body START -->
+                    </div>
+                </div>
+                <!-- Main content END -->
+            </div> <!-- Row END -->
+        </div>
+    </section>
+    <div class="container mb-3">
+        <div class="col-md-12">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <button class="btn-agregar w-100" type="button" (click)="regresarPaso1()">
+                        Anterior
+                    </button>
+                </div>
+                <div class="col-md-4">
+                    <button class="btn-agregar w-100 position-relative" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                    (click)="obtenerPedidoPorBaterias()">
+                        Ver pedido
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{contador}}
+                        </span>
+                    </button>
+                </div>
+                <div class="col-md-4">
+                    <button class="btn-agregar w-100" type="button" [disabled]="checarPedido()" (click)="paso2Completado()">
+                        Siguiente
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Baterias en el pedido</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive border-0">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr class="text-center">
+                                    <th scope="col">Cliente</th>
+                                    <th scope="col">Tipo de bateria</th>
+                                    <th scope="col">Precio en lista</th>
+                                    <th scope="col">Precio con descuento</th>
+                                    <th scope="col">Precio sin usado</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Subtotal</th>
+                                    <th scope="col">Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="text-center" *ngFor="let ppb of pedidoPorBateria">
+                                    <td>{{ppb.Cliente}}</td>
+                                    <td>{{ppb.tipoBateria}}</td>
+                                    <td>{{ppb.precioLista}}</td>
+                                    <td>{{ppb.precioDescuento}}</td>
+                                    <td>{{ppb.precioMasCasco}}</td>
+                                    <td>{{ppb.cantidad}}</td>
+                                    <td>{{ppb.subtotal}}</td>
+                                    <td>
+                                        <button class="btn-agregar" type="button"
+                                            (click)="eliminarPPB(ppb)">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-agregar" data-bs-dismiss="modal">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="paso1 == true && paso2 == true">
+    Bienvenido al paso 3
+</div>
+
+<app-footer></app-footer>

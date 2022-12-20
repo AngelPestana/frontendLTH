@@ -101,4 +101,15 @@ export class BateriaService {
     };
     return this.http.get(this.url + '/precioCliente/' + idCliente + '/' + idBateria, httpOptions);
   }
+
+  getPedidoPorCliente(idCliente: number, idBateria: number, cantidad: number) {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        //Siempre especificar el tipo de autorizacion
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      })
+    };
+    return this.http.get(this.url + '/pedidoPorBateria/' + idCliente + '/' + idBateria + '/' + cantidad, httpOptions);
+  }
 }

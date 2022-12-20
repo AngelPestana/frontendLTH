@@ -34,7 +34,7 @@ export class PedidoService {
     this.enviarContador(this.contador);
   }
 
-  obtenerPedidosAlPedido() {
+  obtenerBateriasAlPedido() {
     return this.ppb;
   }
 

@@ -1,0 +1,70 @@
+.form-control:focus {
+    color: #404448;
+    background-color: #fff;
+    border-color: #066ac9;
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 0 rgb(6 106 201 / 25%);
+    box-shadow: 0 0 0 0 rgb(6 106 201 / 25%);
+}
+
+a.text-primary-hover:hover, button.text-primary-hover:hover {
+    color: #315185 !important;
+}
+
+i {
+    font-size: 1.5em;
+}
+
+.btn-agregar {
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 14px 40px;
+    border-radius: 50px;
+    transition: 0.3s;
+    color: white;
+    background-color: #315185;
+    box-shadow: 0 0 15px rgb(0 0 0 / 8%);
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+}
+
+.btn-agregar:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.mb-0.text-center.text-sm-start {
+    color: #747579;
+}
+
+.pagination-primary-soft .page-item {
+    margin: 4px;
+}
+
+.pagination-primary-soft .page-link {
+    border: transparent;
+    border-radius: 0.325rem !important;
+    color: #315185;
+    background-color: rgba(6, 106, 201, 0.1);
+}
+
+i.bi.bi-caret-right, i.bi.bi-caret-left, .page-link{
+    font-size: 1.1em;
+}
+
+.pagination-primary-soft .page-link:hover {
+    color: #fff;
+    background-color: #315185;
+    border-color: #315185;
+}
+
+.pagination .page-item {
+    float: left;
+}
+
+.pagination-primary-soft .page-link.active {
+    color: #fff;
+    background-color: #315185;
+    border-color: #315185;
+}

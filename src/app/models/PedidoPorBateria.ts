@@ -3,11 +3,20 @@ export class PedidoPorBateria {
     idPedido: number | any;
     idBateria: number | any;
     Cliente: string| any;
+    domicilioCliente: string| any;
+    telefonoCliente: string| any;
+    poblacionCliente: string| any;
+    descuento1Cliente: number| any;
+    descuento2Cliente: number| any;
     tipoBateria: string| any;
-    precio: number| any;
+    precioLista: number| any;
     precioDescuento: number| any;
-    precioSinUsado: number| any;
+    precioMasCasco: number| any;
+    precioMenosCascoUsado: number| any;
     cantidad: number| any;
+    subtotalPrecioLista: number| any;
+    subtotalDescuento: number| any;
+    subtotalConDescuento: number| any;
     subtotal: number| any;
     created_at: string| any;
 }
