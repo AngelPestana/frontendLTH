@@ -427,15 +427,14 @@
                         <div class="mb-3 row">
                             <label for="condiciones" class="col-sm-2 col-form-label">Condiciones:</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" id="condiciones"
+                                <input type="text" class="form-control" id="condiciones"
                                     formControlName="condiciones">
                             </div>
                             <div
                                 *ngIf="formControlPedido.condiciones.errors && (formControlPedido.condiciones.dirty || formControlPedido.condiciones.touched)">
                                 <p class="form-text text-danger"
                                     *ngIf="formControlPedido.condiciones.errors.required || formControlPedido.condiciones.errors.minlength || formControlPedido.condiciones.errors.maxlength || formControlPedido.condiciones.errors.pattern">
-                                    Las condiciones son requeridas, solo puede contener numeros enteros, no debe ser
-                                    menor a 1 digito y mayor a 3 digitos</p>
+                                    Las condiciones es requirida, valida, no debe tener menos de 3 caracteres y mas de 45 caracteres</p>
                             </div>
                         </div>
                         <div class="mb-3 row">

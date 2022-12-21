@@ -74,14 +74,14 @@ export class PedidosGestionComponent implements OnInit {
     this.formBusqueda1 = new FormGroup({
       busqueda1: new FormControl('', [
         Validators.required,
-        Validators.minLength(5),
+        Validators.minLength(3),
         Validators.maxLength(50)
       ])
     });
     this.formBusqueda2 = new FormGroup({
       busqueda2: new FormControl('', [
         Validators.required,
-        Validators.minLength(5),
+        Validators.minLength(3),
         Validators.maxLength(50)
       ])
     });
@@ -91,9 +91,9 @@ export class PedidosGestionComponent implements OnInit {
       ]),
       condiciones: new FormControl('', [
         Validators.required,
-        Validators.pattern('[0-9]{1,3}'),
-        Validators.minLength(1),
-        Validators.maxLength(3)
+        Validators.pattern('[a-zA-Z0-9 ]{3,45}'),
+        Validators.minLength(3),
+        Validators.maxLength(45)
       ])
     });
     //console.log(this.formulario);
@@ -402,7 +402,7 @@ export class PedidosGestionComponent implements OnInit {
       },
       buttonsStyling: false
     })
-    
+
     swalWithBootstrapButtons.fire({
       title: '¿Esta seguro?',
       text: "Esta a punto de crear un pedido, si no esta seguro aun puede confirmar, esto no se podrá editar despues",
@@ -417,7 +417,7 @@ export class PedidosGestionComponent implements OnInit {
       } else if (
         /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel
-      ) {}
+      ) { }
     })
   }
 
@@ -436,16 +436,9 @@ export class PedidosGestionComponent implements OnInit {
     this.spinner.show();
     this.PostSubscription = this.service3.postPedido(pedido).subscribe((res: any) => {
       let idPedido = res.id;
-      this.pedidoPorBateria.map((ppb) => {
-        ppb.idPedido = idPedido;
-        this.PostSubscriptions = this.service3.postPedidoPorBateria(ppb).subscribe((res: any) => {
-          //console.log('todo bien!!');          
-        });
-      });
-      this.cerrarLoading();
-      let mensaje = 'Se creó el pedido con exito!!';
-      this.mensajeExito(mensaje);
-      //this.router.navigate(['/pedidos']);// que nos rediriga a pedidos
+      console.log("Se agrego pedido esperando..");
+      this.agregarBaterias(idPedido);
+      console.log('termino el metodo agregaragregarBaterias2')
     }, (error: any) => {
       this.cerrarLoading();
       //console.log(error);
@@ -454,6 +447,58 @@ export class PedidosGestionComponent implements OnInit {
       this.mensajeError(mensajeError);
     });
   }
+
+  /*async agregarBaterias(idPedido: string) {
+    this.callerFun();
+    let promises = this.pedidoPorBateria.map((ppb) => {
+      ppb.idPedido = idPedido;
+      this.PostSubscriptions = this.service3.postPedidoPorBateria(ppb).subscribe((res: any) => {
+        console.log('todo bien!!');
+      });
+    });
+    await Promise.all(promises).then((res: any) => {
+      console.log(promises);
+    });
+  }*/
+
+  agregarBaterias(idPedido: string) {
+      //here our function should be implemented 
+      let cont = 0;
+      this.pedidoPorBateria.map((ppb) => {
+        ppb.idPedido = idPedido;
+        console.log('map corriendo');
+        this.PostSubscriptions = this.service3.postPedidoPorBateria(ppb).subscribe(async (res: any) => {
+          cont++;
+          console.log('todo bien!!');
+          await this.checarSiTermino(cont);
+        });
+      });
+
+    }
+    
+    checarSiTermino(cont: number): void {
+      console.log('contador: ' + cont);
+      console.log('contador del pedido: ' + this.contador);
+      if(this.contador == cont){
+        this.cerrarLoading();
+        let mensaje = 'Se creó el pedido con exito!!';
+        this.mensajeExito(mensaje);
+      }
+    }
+
+  /*async agregarBaterias2(idPedido: string) {
+    let promises = this.pedidoPorBateria.map(async(ppb) => {
+      ppb.idPedido = idPedido;
+      this.PostSubscriptions = this.service3.postPedidoPorBateria(ppb).subscribe((res: any) => {
+        await if(res){
+          
+        }
+      });
+    });
+    Promise.all(promises).then(res => {
+      console.log('acabo el map');
+    });
+  }*/
 
   get formControlBusqueda1() {//NO borrar
     return this.formBusqueda1.controls;

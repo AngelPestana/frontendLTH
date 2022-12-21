@@ -60,14 +60,14 @@ export class ConsultarPrecioComponent implements OnInit {
     this.formBusqueda1 = new FormGroup({
       busqueda1: new FormControl('', [
         Validators.required,
-        Validators.minLength(5),
+        Validators.minLength(3),
         Validators.maxLength(50)
       ])
     }),
     this.formBusqueda2 = new FormGroup({
       busqueda2: new FormControl('', [
         Validators.required,
-        Validators.minLength(5),
+        Validators.minLength(3),
         Validators.maxLength(50)
       ])
     })

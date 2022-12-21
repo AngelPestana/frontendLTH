@@ -45,7 +45,7 @@ export class ClientesComponent implements OnInit {
     this.formulario = new FormGroup({
       busqueda: new FormControl('', [
         Validators.required,
-        Validators.minLength(5),
+        Validators.minLength(3),
         Validators.maxLength(50)
       ])
     });

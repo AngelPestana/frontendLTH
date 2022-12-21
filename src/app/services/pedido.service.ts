@@ -58,7 +58,8 @@ export class PedidoService {
     this.ppb.forEach(element => {
       total = total + element.subtotal;
     });
-    return total;
+    let totalReducido = total.toFixed(2);
+    return +totalReducido;
   }
 
   obtenerTotalSinDescuento(): number {
@@ -66,7 +67,8 @@ export class PedidoService {
     this.ppb.forEach(element => {
       totalSinDescuento = totalSinDescuento + element.subtotalPrecioLista;
     });
-    return totalSinDescuento;
+    let reducido = totalSinDescuento.toFixed(2);
+    return +reducido;
   }
 
   obtenerTotalDescuento(): number {
@@ -74,7 +76,8 @@ export class PedidoService {
     this.ppb.forEach(element => {
       totalDescuento = totalDescuento + element.subtotalDescuento;
     });
-    return totalDescuento;
+    let reducido = totalDescuento.toFixed(2);
+    return +reducido;
   }
 
   obtenerTotalConDescuento(): number {
@@ -82,7 +85,8 @@ export class PedidoService {
     this.ppb.forEach(element => {
       totalConDescuento = totalConDescuento + element.subtotalConDescuento;
     });
-    return totalConDescuento;
+    let reducido = totalConDescuento.toFixed(2);
+    return +reducido;
   }
 
   //metodos para conexion con la API
