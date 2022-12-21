@@ -12,6 +12,7 @@ import { ClienteService } from 'src/app/services/cliente.service';
 import { PedidoService } from 'src/app/services/pedido.service';
 import Swal from 'sweetalert2';
 import { PedidoPorBateria } from '../../models/PedidoPorBateria';
+import { Pedido } from '../../models/Pedido';
 
 @Component({
   selector: 'app-pedidos-gestion',
@@ -22,10 +23,12 @@ export class PedidosGestionComponent implements OnInit {
 
   formBusqueda1: any;
   formBusqueda2: any;
+  formPedido: any;
   idCliente = 0;
-  idBateria = 0;
   pedidoPorBateria: PedidoPorBateria[] = [];
   contador = 0;
+  total = 0;
+  agente = 'Miguel Angel Pestaña Villalana';
   //precioCliente: any;
   //GetSubscription: Subscription | any;
   estaBuscando = false;
@@ -39,7 +42,7 @@ export class PedidosGestionComponent implements OnInit {
   numbers: number[] = [];
   GetSubscriptions: Subscription | any;
   paso1: boolean = false;
-  paso2:boolean = false;
+  paso2: boolean = false;
   // atributos para la bateria
   estaBuscando2 = false;
   buscar2 = '';
@@ -50,8 +53,10 @@ export class PedidosGestionComponent implements OnInit {
   details2: Details | any;//por objeto
   numbers2: number[] = [];
   GetSubscriptions2: Subscription | any;
-  
+
   GetSubscriptions3: Subscription | any;
+  PostSubscription: Subscription | any;
+  PostSubscriptions: Subscription | any;
 
   constructor(private service: ClienteService, private service2: BateriaService, private service3: PedidoService, private spinner: NgxSpinnerService, private router: Router) { }
 
@@ -72,14 +77,25 @@ export class PedidosGestionComponent implements OnInit {
         Validators.minLength(5),
         Validators.maxLength(50)
       ])
-    })
+    });
     this.formBusqueda2 = new FormGroup({
       busqueda2: new FormControl('', [
         Validators.required,
         Validators.minLength(5),
         Validators.maxLength(50)
       ])
-    })
+    });
+    this.formPedido = new FormGroup({
+      fecha: new FormControl('', [
+        Validators.required
+      ]),
+      condiciones: new FormControl('', [
+        Validators.required,
+        Validators.pattern('[0-9]{1,3}'),
+        Validators.minLength(1),
+        Validators.maxLength(3)
+      ])
+    });
     //console.log(this.formulario);
   }
 
@@ -187,7 +203,7 @@ export class PedidosGestionComponent implements OnInit {
   }
 
   paginaActiva2(currentpage: number, numero: number): string {
-    if (currentpage == numero){
+    if (currentpage == numero) {
       return "active"
     }
     return ""
@@ -250,7 +266,7 @@ export class PedidosGestionComponent implements OnInit {
   }
 
   paginaActiva(currentpage: number, numero: number): string {// colorcito de pagina activa en lista de clientes
-    if (currentpage == numero){
+    if (currentpage == numero) {
       return "active"
     }
     return ""
@@ -264,13 +280,11 @@ export class PedidosGestionComponent implements OnInit {
       allowOutsideClick: false
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed) {
-        window.location.reload();//Para que actualice la tabla
-      }
+      this.router.navigate(['/pedidos']);//redirigir a la pagina de pedidos
     })
   }
 
-  establecerIdCliente(idCliente: number | any): void{
+  establecerIdCliente(idCliente: number | any): void {
     this.idCliente = idCliente;
   }
 
@@ -286,8 +300,9 @@ export class PedidosGestionComponent implements OnInit {
       pedidoPorBateria = res;
       this.service3.agregarBateriaAlPedido(pedidoPorBateria);
       this.contador = this.service3.obtenerContador();
+      this.obtenerPedidoPorBaterias();
       this.cerrarLoading();
-    },(error: any) => {
+    }, (error: any) => {
       let mensajeErrorConEtiquetas = error.error.messages.error;
       let mensajeError = mensajeErrorConEtiquetas.replace(/<[^>]*>?/g, '');
       this.mensajeError2(mensajeError);
@@ -296,7 +311,7 @@ export class PedidosGestionComponent implements OnInit {
     //pedidoPorBateria.
   }
 
-  async obtenerCantidad(idBateria: number| any): Promise<void> {
+  async obtenerCantidad(idBateria: number | any): Promise<void> {
     const { value: cantidad } = await Swal.fire({
       title: 'Introduzca la cantidad',
       input: 'number',
@@ -316,7 +331,7 @@ export class PedidosGestionComponent implements OnInit {
 
     if (validado == true && cantidad != 0) {//paso la validacion pero tambien se tiene que pedir un valor distinto de 0
       this.agregarAlPedido(idBateria, cantidad);
-    }else if(cantidad != undefined) {//en caso de no entrar en esta condicion, significa que dio clic en cancelar
+    } else if (cantidad != undefined) {//en caso de no entrar en esta condicion, significa que dio clic en cancelar
       Swal.fire({
         icon: 'error',
         title: 'Cantidad Invalida',
@@ -326,7 +341,7 @@ export class PedidosGestionComponent implements OnInit {
   }
 
   checarIdCliente(): boolean {
-    if (this.idCliente == 0){
+    if (this.idCliente == 0) {
       return true;
     }
     return false;
@@ -340,7 +355,7 @@ export class PedidosGestionComponent implements OnInit {
     this.pedidoPorBateria = [];//reiniciamos el arreglo porque se regreso al paso 1 este valor es el atributo que se muestra en la vista por eso en necesario reiniciarlo directamente 
   }
 
-  checarId(idBateria: number| any): boolean {
+  checarId(idBateria: number | any): boolean {
     //Obtenemos las baterias del servicio y comparamos con los ids agregados
     let baterias = this.service3.obtenerBateriasAlPedido();
     //usamos un foreach para iterar sobre los productos agregados en el arreglo e identificar si existe el id relacionado
@@ -364,13 +379,80 @@ export class PedidosGestionComponent implements OnInit {
 
   paso2Completado(): void {
     this.paso2 = true;
+    this.total = this.service3.obtenerTotalDelPedido();
   }
 
   checarPedido(): boolean {
-    if (this.pedidoPorBateria.length == 0){
+    if (this.pedidoPorBateria.length == 0) {
       return true;
     }
     return false;
+  }
+
+  regresarPaso2(): void {
+    this.paso2 = false;
+    this.formPedido.reset();
+  }
+
+  preguntarAntesCrear(): void {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success me-3',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    
+    swalWithBootstrapButtons.fire({
+      title: '¿Esta seguro?',
+      text: "Esta a punto de crear un pedido, si no esta seguro aun puede confirmar, esto no se podrá editar despues",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, crear pedido!!',
+      cancelButtonText: 'No, cancelar!!',
+      reverseButtons: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.crearPedido();
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {}
+    })
+  }
+
+  crearPedido(): void {
+    //console.log('Ya quieres crear pedido prro!!!')
+    let pedido = new Pedido();
+    pedido.idCliente = this.idCliente;
+    pedido.totalSinDescuento = this.service3.obtenerTotalSinDescuento();
+    pedido.totalDescuento = this.service3.obtenerTotalDescuento();
+    pedido.totalConDescuento = this.service3.obtenerTotalConDescuento();
+    pedido.totalMasCasco = this.service3.obtenerTotalDelPedido();
+    pedido.condiciones = this.formControlPedido.condiciones.value;
+    pedido.agente = this.agente;
+    pedido.fecha = this.formControlPedido.fecha.value;
+
+    this.spinner.show();
+    this.PostSubscription = this.service3.postPedido(pedido).subscribe((res: any) => {
+      let idPedido = res.id;
+      this.pedidoPorBateria.map((ppb) => {
+        ppb.idPedido = idPedido;
+        this.PostSubscriptions = this.service3.postPedidoPorBateria(ppb).subscribe((res: any) => {
+          //console.log('todo bien!!');          
+        });
+      });
+      this.cerrarLoading();
+      let mensaje = 'Se creó el pedido con exito!!';
+      this.mensajeExito(mensaje);
+      //this.router.navigate(['/pedidos']);// que nos rediriga a pedidos
+    }, (error: any) => {
+      this.cerrarLoading();
+      //console.log(error);
+      let mensajeErrorConEtiquetas = error.error.messages.error;
+      let mensajeError = mensajeErrorConEtiquetas.replace(/<[^>]*>?/g, '');
+      this.mensajeError(mensajeError);
+    });
   }
 
   get formControlBusqueda1() {//NO borrar
@@ -381,9 +463,27 @@ export class PedidosGestionComponent implements OnInit {
     return this.formBusqueda2.controls;
   }
 
+  get formControlPedido() {
+    return this.formPedido.controls;
+  }
+
   ngOnDestroy(): void {
     this.GetSubscriptions.unsubscribe();
     this.GetSubscriptions2.unsubscribe();
+    if (this.GetSubscriptions3 != null || this.GetSubscriptions3 != undefined) {
+      this.GetSubscriptions3.unsubscribe();
+      //console.log('se elimino el get edit')
+    }
+
+    if (this.PostSubscription != null || this.PostSubscription != undefined) {
+      this.PostSubscription.unsubscribe();
+      //console.log('se elimino el post')
+    }
+
+    if (this.PostSubscriptions != null || this.PostSubscriptions != undefined) {
+      this.PostSubscriptions.unsubscribe();
+      //console.log('se elimino el post')
+    }
     //console.log('Hola se ejecuto el ngOnDestroy')
   }
 

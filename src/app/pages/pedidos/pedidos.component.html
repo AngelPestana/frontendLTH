@@ -69,7 +69,8 @@
 										<th scope="col">Total sumando los cascos</th>
 										<th scope="col">Fecha</th>
                                         <th scope="col">Cliente</th>
-										<th scope="col">Gestión</th>
+										<th scope="col">Eliminar</th>
+										<th scope="col">Ver</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -82,8 +83,14 @@
 										<td>{{pedido.fecha}}</td>
                                         <td>{{pedido.Cliente}}</td>
 										<td>
-											<a href="" class="btn-agregar">
-                            					<i class="bi bi-pencil-square"></i></a>
+											<button class="btn-agregar">
+                            					<i class="bi bi-trash-fill" (click)="preguntarEliminacion()"></i>
+											</button>
+										</td>
+										<td>
+											<button class="btn-agregar">
+                            					<i class="bi bi-eye-fill"></i>
+											</button>
 										</td>
 									</tr>
 								</tbody>

@@ -5,6 +5,18 @@
         <div class="container mt-3 mb-3">
             <h3 class="text-center mb-3">Seleccione al cliente</h3>
             <h5 class="text-center text-danger" *ngIf="idCliente == 0">El cliente es requerido</h5>
+            <div class="position-relative m-4">
+                <div class="progress" style="height: 1px;">
+                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="50" aria-valuemin="0"
+                        aria-valuemax="100"></div>
+                </div>
+                <p class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-primary rounded-pill"
+                    style="width: 2rem; height:2rem;">1</p>
+                <p class="position-absolute top-0 start-50 translate-middle btn btn-sm btn-secondary rounded-pill"
+                    style="width: 2rem; height:2rem;">2</p>
+                <p class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-secondary rounded-pill"
+                    style="width: 2rem; height:2rem;">3</p>
+            </div>
             <div class="row">
                 <!-- Main content START -->
                 <div class="col-xl-12">
@@ -147,6 +159,18 @@
     <section class="pt-0">
         <div class="container mt-5 mb-3">
             <h3 class="text-center mb-3">Agregue las baterias a su pedido</h3>
+            <div class="position-relative m-4">
+                <div class="progress" style="height: 1px;">
+                    <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <p class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-primary rounded-pill"
+                    style="width: 2rem; height:2rem;">1</p>
+                <p class="position-absolute top-0 start-50 translate-middle btn btn-sm btn-primary rounded-pill"
+                    style="width: 2rem; height:2rem;">2</p>
+                <p class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-secondary rounded-pill"
+                    style="width: 2rem; height:2rem;">3</p>
+            </div>
             <div class="row">
                 <!-- Main content START -->
                 <div class="col-xl-12">
@@ -209,7 +233,8 @@
                                             <td>{{bateria.created_at}}</td>
                                             <td>
                                                 <button class="btn-agregar" type="button"
-                                                    (click)="obtenerCantidad(bateria.id)" [disabled]="checarId(bateria.id)">
+                                                    (click)="obtenerCantidad(bateria.id)"
+                                                    [disabled]="checarId(bateria.id)">
                                                     Agregar al pedido
                                                 </button>
                                             </td>
@@ -273,8 +298,8 @@
                     </button>
                 </div>
                 <div class="col-md-4">
-                    <button class="btn-agregar w-100 position-relative" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                    (click)="obtenerPedidoPorBaterias()">
+                    <button class="btn-agregar w-100 position-relative" type="button" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop" (click)="obtenerPedidoPorBaterias()">
                         Ver pedido
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             {{contador}}
@@ -282,7 +307,8 @@
                     </button>
                 </div>
                 <div class="col-md-4">
-                    <button class="btn-agregar w-100" type="button" [disabled]="checarPedido()" (click)="paso2Completado()">
+                    <button class="btn-agregar w-100" type="button" [disabled]="checarPedido()"
+                        (click)="paso2Completado()">
                         Siguiente
                     </button>
                 </div>
@@ -322,8 +348,7 @@
                                     <td>{{ppb.cantidad}}</td>
                                     <td>{{ppb.subtotal}}</td>
                                     <td>
-                                        <button class="btn-agregar" type="button"
-                                            (click)="eliminarPPB(ppb)">
+                                        <button class="btn-agregar" type="button" (click)="eliminarPPB(ppb)">
                                             <i class="bi bi-trash-fill"></i>
                                         </button>
                                     </td>
@@ -343,7 +368,146 @@
 </div>
 
 <div *ngIf="paso1 == true && paso2 == true">
-    Bienvenido al paso 3
+    <form class="rounded position-relative" novalidate [formGroup]="formPedido">
+        <div class="container mt-3 mb-3">
+            <h3 class="text-center">Pedido</h3>
+            <div class="position-relative m-4">
+                <div class="progress" style="height: 1px;">
+                    <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="50"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <p class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-primary rounded-pill"
+                    style="width: 2rem; height:2rem;">1</p>
+                <p class="position-absolute top-0 start-50 translate-middle btn btn-sm btn-primary rounded-pill"
+                    style="width: 2rem; height:2rem;">2</p>
+                <p class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-primary rounded-pill"
+                    style="width: 2rem; height:2rem;">3</p>
+            </div>
+            <div class="col-md-12 mt-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3 row">
+                            <label for="nombre" class="col-sm-2 col-form-label">Nombre:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="nombre"
+                                    placeholder="{{pedidoPorBateria[0]['Cliente']}}" disabled>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="domicilio" class="col-sm-2 col-form-label">Domicilio:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="domicilio"
+                                    placeholder="{{pedidoPorBateria[0]['direccionCliente']}}" disabled>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="telefono" class="col-sm-2 col-form-label">Telefono:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="telefono"
+                                    placeholder="{{pedidoPorBateria[0]['telefonoCliente']}}" disabled>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="poblacion" class="col-sm-2 col-form-label">Población:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="poblacion"
+                                    placeholder="{{pedidoPorBateria[0]['poblacionCliente']}}" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3 row">
+                            <label for="descuentos" class="col-sm-2 col-form-label">Descuentos:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="descuentos"
+                                    placeholder="{{pedidoPorBateria[0]['descuento1Cliente']}}% y {{pedidoPorBateria[0]['descuento2Cliente']}}%"
+                                    disabled>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="condiciones" class="col-sm-2 col-form-label">Condiciones:</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" id="condiciones"
+                                    formControlName="condiciones">
+                            </div>
+                            <div
+                                *ngIf="formControlPedido.condiciones.errors && (formControlPedido.condiciones.dirty || formControlPedido.condiciones.touched)">
+                                <p class="form-text text-danger"
+                                    *ngIf="formControlPedido.condiciones.errors.required || formControlPedido.condiciones.errors.minlength || formControlPedido.condiciones.errors.maxlength || formControlPedido.condiciones.errors.pattern">
+                                    Las condiciones son requeridas, solo puede contener numeros enteros, no debe ser
+                                    menor a 1 digito y mayor a 3 digitos</p>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="agente" class="col-sm-2 col-form-label">Agente:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="agente" placeholder="{{agente}}" disabled>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="fecha" class="col-sm-2 col-form-label">Fecha:</label>
+                            <div class="col-sm-10">
+                                <input type="date" class="form-control" id="fecha" formControlName="fecha">
+                            </div>
+                            <div
+                                *ngIf="formControlPedido.fecha.errors && (formControlPedido.fecha.dirty || formControlPedido.fecha.touched)">
+                                <p class="form-text text-danger" *ngIf="formControlPedido.fecha.errors.required">
+                                    Las fecha del pedido es requerida</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-3 mb-3">
+            <div class="table-responsive border-0">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="text-center">
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Precio por cantidad</th>
+                            <th scope="col">Precio del casco</th>
+                            <th scope="col">Casco por cantidad</th>
+                            <th scope="col">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center" *ngFor="let ppb of pedidoPorBateria">
+                            <td>{{ppb.cantidad}}</td>
+                            <td>{{ppb.tipoBateria}}</td>
+                            <td>${{ppb.precioDescuento}}</td>
+                            <td>${{ppb.subtotalConDescuento}}</td>
+                            <td>${{ppb.precioCascoNuevo}}</td>
+                            <td>${{ppb.subtotalCascosNuevos}}</td>
+                            <td>${{ppb.subtotal}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="container mb-3">
+            <div class="col-md-12">
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <button class="btn-agregar w-100" type="button" (click)="regresarPaso2()">
+                            Anterior
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn-agregar-verde w-100" type="button" [disabled]="formPedido.invalid"
+                            (click)="preguntarAntesCrear()">
+                            Confirmar Pedido
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <h3 class="text-center mb-3">Total del pedido: ${{total}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 
 <app-footer></app-footer>

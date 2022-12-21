@@ -76,8 +76,8 @@ export class PedidosComponent implements OnInit {
     this.GetSubscriptions = this.service.getPedidos2(this.url).subscribe((res: any) => {
       this.pedidos = res.pedidos;
       this.details = res.getDetails;
-      console.log(this.pedidos);
-      console.log(this.details);
+      //console.log(this.pedidos);
+      //console.log(this.details);
       //console.log('siguiente: ' + this.details.next);
       //console.log('anterior: ' + this.details.previous);
       this.contar();
@@ -159,6 +159,37 @@ export class PedidosComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  preguntarEliminacion(): void {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-danger me-3',
+        cancelButton: 'btn btn-success'
+      },
+      buttonsStyling: false
+    })
+    
+    swalWithBootstrapButtons.fire({
+      title: '¿Esta seguro?',
+      text: "Esta a punto de eliminar un pedido, esto no se podrá revertir",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, eliminar pedido!!',
+      cancelButtonText: 'No, cancelar!!',
+      reverseButtons: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.eliminarPedido();
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {}
+    })
+  }
+
+  eliminarPedido(): void {
+    //Falta programar el de eliminar
   }
 
   get formularioControl() {//NO borrar

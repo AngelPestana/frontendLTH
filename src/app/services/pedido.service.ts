@@ -14,6 +14,7 @@ export class PedidoService {
   private enviarContadorSubject = new Subject<number>();
   public enviarContadorObservable = this.enviarContadorSubject.asObservable();
   url: string = 'http://localhost:8080/api/pedidos';
+  url2: string = 'http://localhost:8080/api/pedidosPorBaterias';
 
   constructor(private http: HttpClient) { }
 
@@ -50,6 +51,38 @@ export class PedidoService {
 
   obtenerBateriaAlPedido(id: number) {
     return this.ppb[id];
+  }
+
+  obtenerTotalDelPedido(): number {
+    let total = 0;
+    this.ppb.forEach(element => {
+      total = total + element.subtotal;
+    });
+    return total;
+  }
+
+  obtenerTotalSinDescuento(): number {
+    let totalSinDescuento = 0;
+    this.ppb.forEach(element => {
+      totalSinDescuento = totalSinDescuento + element.subtotalPrecioLista;
+    });
+    return totalSinDescuento;
+  }
+
+  obtenerTotalDescuento(): number {
+    let totalDescuento = 0;
+    this.ppb.forEach(element => {
+      totalDescuento = totalDescuento + element.subtotalDescuento;
+    });
+    return totalDescuento;
+  }
+
+  obtenerTotalConDescuento(): number {
+    let totalConDescuento = 0;
+    this.ppb.forEach(element => {
+      totalConDescuento = totalConDescuento + element.subtotalConDescuento;
+    });
+    return totalConDescuento;
   }
 
   //metodos para conexion con la API
@@ -96,6 +129,17 @@ export class PedidoService {
       })
     };
     return this.http.post<Pedido>(this.url + '/create', pedido, httpOptions);
+  }
+
+  postPedidoPorBateria(pedidoPorBateria: PedidoPorBateria): Observable<PedidoPorBateria> {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        //Siempre especificar el tipo de autorizacion
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      })
+    };
+    return this.http.post<PedidoPorBateria>(this.url2 + '/create', pedidoPorBateria, httpOptions);
   }
 
   putPedido(pedido: Pedido, id: string): Observable<Pedido> {
