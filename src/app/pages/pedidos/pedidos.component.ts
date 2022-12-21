@@ -26,6 +26,7 @@ export class PedidosComponent implements OnInit {
   details: Details | any;//por objeto
   numbers: number[] = [];
   GetSubscriptions: Subscription | any;
+  DeleteSubscription: Subscription | any;
 
   constructor(private service: PedidoService, private spinner: NgxSpinnerService, private router: Router) { }
 
@@ -161,7 +162,7 @@ export class PedidosComponent implements OnInit {
     return true;
   }
 
-  preguntarEliminacion(): void {
+  preguntarEliminacion(idPedido: string): void {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-danger me-3',
@@ -180,7 +181,7 @@ export class PedidosComponent implements OnInit {
       reverseButtons: false
     }).then((result) => {
       if (result.isConfirmed) {
-        this.eliminarPedido();
+        this.eliminarPedido(idPedido);
       } else if (
         /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel
@@ -188,8 +189,43 @@ export class PedidosComponent implements OnInit {
     })
   }
 
-  eliminarPedido(): void {
+  eliminarPedido(idPedido: string): void {
     //Falta programar el de eliminar
+    this.spinner.show();
+    this.DeleteSubscription = this.service.deletePedido(idPedido).subscribe((res: any) => {
+      this.cerrarLoading();
+      let mensaje = 'Se eliminó el pedido con exito!!';
+      this.mensajeExito(mensaje);
+    }, (error: any) => {
+      this.cerrarLoading();
+      //console.log(error);
+      let mensajeErrorConEtiquetas = error.error.messages.error;
+      let mensajeError = mensajeErrorConEtiquetas.replace(/<[^>]*>?/g, '');
+      this.mensajeError(mensajeError);
+    })
+  }
+
+  mensajeExito(mensaje: string) {
+    Swal.fire({
+      icon: 'success',
+      title: mensaje,
+      confirmButtonText: 'Aceptar',
+      allowOutsideClick: false
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        window.location.reload();//Para que actualice la tabla
+      }
+    })
+  }
+
+  mensajeError(mensaje: string) {
+    Swal.fire({
+      icon: 'error',
+      title: mensaje,
+      confirmButtonText: 'Aceptar',
+      allowOutsideClick: false
+    });
   }
 
   get formularioControl() {//NO borrar
