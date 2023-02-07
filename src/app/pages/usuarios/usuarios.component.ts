@@ -73,9 +73,9 @@ export class UsuariosComponent implements OnInit {
       ]),
       password: new FormControl('', [
         Validators.required,
-        Validators.pattern("[a-zA-ZñÑ0-9!?-]{8,12}"),
+        Validators.pattern("[a-zA-ZñÑ0-9!?-]{8,15}"),
         Validators.minLength(8),
-        Validators.maxLength(12)
+        Validators.maxLength(15)
       ]),
       idRol: new FormControl('', [
         Validators.required

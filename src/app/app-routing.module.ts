@@ -1,5 +1,8 @@
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { GuardAccessGuard } from './guards/guard-access.guard';
+import { GuardAdministradorGuard } from './guards/guard-administrador.guard';
+import { GuardVendedorAdministradorGuard } from './guards/guard-vendedorAdministrador.guard';
 import { BateriasComponent } from './pages/baterias/baterias.component';
 import { ClientesComponent } from './pages/clientes/clientes.component';
 import { ConsultarPrecioComponent } from './pages/consultar-precio/consultar-precio.component';
@@ -16,31 +19,38 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    component: HomeComponent
+    component: HomeComponent,
+    canActivate: [GuardAccessGuard]
   },
   {
     path: 'clientes',
-    component: ClientesComponent
+    component: ClientesComponent,
+    canActivate: [GuardVendedorAdministradorGuard]
   },
   {
     path: 'usuarios',
-    component: UsuariosComponent
+    component: UsuariosComponent,
+    canActivate: [GuardAdministradorGuard]
   },
   {
     path: 'baterias',
-    component: BateriasComponent
+    component: BateriasComponent,
+    canActivate: [GuardVendedorAdministradorGuard]
   },
   {
     path: 'consultar-precio',
-    component: ConsultarPrecioComponent
+    component: ConsultarPrecioComponent,
+    canActivate: [GuardVendedorAdministradorGuard]
   },
   {
     path: 'pedidos',
-    component: PedidosComponent
+    component: PedidosComponent,
+    canActivate: [GuardVendedorAdministradorGuard]
   },
   {
     path: 'pedidos-gestion',
-    component: PedidosGestionComponent
+    component: PedidosGestionComponent,
+    canActivate: [GuardVendedorAdministradorGuard]
   }
 ];
 
