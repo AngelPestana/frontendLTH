@@ -16,8 +16,8 @@ export class PedidoService {
   //url: string = 'http://localhost:8080/api/pedidos';
   //url2: string = 'http://localhost:8080/api/pedidosPorBaterias';
 
-  url: string = 'http://backend-lth.herokuapp.com/public/api/pedidos';
-  url2: string = 'http://backend-lth.herokuapp.com/public/api/pedidosPorBaterias';
+  url: string = 'https://backend-lth.herokuapp.com/public/api/pedidos';
+  url2: string = 'https://backend-lth.herokuapp.com/public/api/pedidosPorBaterias';
 
   constructor(private http: HttpClient) { }
 

@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 export class ClienteService {
 
   //url: string = 'http://localhost:8080/api/clientes';
-  url: string = 'http://backend-lth.herokuapp.com/public/api/clientes';
+  url: string = 'https://backend-lth.herokuapp.com/public/api/clientes';
 
   constructor(private http: HttpClient) { }
 

@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   formulario: any;
   userAccedio: boolean = false
 
-  urlImg: string = '../../assets/img/home/'
+  urlImg: string = 'assets/img/home/'
   constructor(private spinner: NgxSpinnerService, private login: LoginService) { }
 
   ngOnInit(): void {

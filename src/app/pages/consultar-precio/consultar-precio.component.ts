@@ -27,9 +27,9 @@ export class ConsultarPrecioComponent implements OnInit {
 
   estaBuscando = false;
   buscar = '';
-  url = 'http://backend-lth.herokuapp.com/public/api/clientes';
-  urlBaseBusqueda = 'http://backend-lth.herokuapp.com/public/api/clientes/search';
-  urlBase = 'http://backend-lth.herokuapp.com/public/api/clientes';
+  url = 'https://backend-lth.herokuapp.com/public/api/clientes';
+  urlBaseBusqueda = 'https://backend-lth.herokuapp.com/public/api/clientes/search';
+  urlBase = 'https://backend-lth.herokuapp.com/public/api/clientes';
   //urlBaseBusqueda = 'http://localhost:8080/api/clientes/search';
   //urlBase = 'http://localhost:8080/api/clientes';
   //url = 'http://localhost:8080/api/clientes';
@@ -41,9 +41,9 @@ export class ConsultarPrecioComponent implements OnInit {
   // atributos para la bateria
   estaBuscando2 = false;
   buscar2 = '';
-  url2 = 'http://backend-lth.herokuapp.com/public/api/baterias';
-  urlBaseBusqueda2 = 'http://backend-lth.herokuapp.com/public/api/baterias/search';
-  urlBase2 = 'http://backend-lth.herokuapp.com/public/api/baterias';
+  url2 = 'https://backend-lth.herokuapp.com/public/api/baterias';
+  urlBaseBusqueda2 = 'https://backend-lth.herokuapp.com/public/api/baterias/search';
+  urlBase2 = 'https://backend-lth.herokuapp.com/public/api/baterias';
   //urlBaseBusqueda2 = 'http://localhost:8080/api/baterias/search';
   //urlBase2 = 'http://localhost:8080/api/baterias';
   //url2 = 'http://localhost:8080/api/baterias';

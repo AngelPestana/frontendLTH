@@ -10,8 +10,8 @@ export class BateriaService {
   //url: string = 'http://localhost:8080/api/baterias';
   //url2: string = 'http://localhost:8080/api/costoGrupo';
 
-  url: string = 'http://backend-lth.herokuapp.com/public/api/baterias';
-  url2: string = 'http://backend-lth.herokuapp.com/public/api/costoGrupo';
+  url: string = 'https://backend-lth.herokuapp.com/public/api/baterias';
+  url2: string = 'https://backend-lth.herokuapp.com/public/api/costoGrupo';
 
   constructor(private http: HttpClient) {
 

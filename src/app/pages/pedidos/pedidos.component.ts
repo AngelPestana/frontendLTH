@@ -19,9 +19,9 @@ export class PedidosComponent implements OnInit {
   estaBuscando = false;
   buscar = '';
   buscar2 = '';
-  url = 'http://backend-lth.herokuapp.com/public/api/pedidos';
-  urlBaseBusqueda = 'http://backend-lth.herokuapp.com/public/api/pedidos/search';
-  urlBase = 'http://backend-lth.herokuapp.com/public/api/pedidos';
+  url = 'https://backend-lth.herokuapp.com/public/api/pedidos';
+  urlBaseBusqueda = 'https://backend-lth.herokuapp.com/public/api/pedidos/search';
+  urlBase = 'https://backend-lth.herokuapp.com/public/api/pedidos';
   //urlBaseBusqueda = 'http://localhost:8080/api/pedidos/search';
   //urlBase = 'http://localhost:8080/api/pedidos';
   //url = 'http://localhost:8080/api/pedidos';

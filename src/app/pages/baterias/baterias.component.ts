@@ -22,9 +22,9 @@ export class BateriasComponent implements OnInit {
   estaEnGestion: boolean = false;
   estaBuscando = false;
   buscar = '';
-  url = 'http://backend-lth.herokuapp.com/public/api/baterias';
-  urlBaseBusqueda = 'http://backend-lth.herokuapp.com/public/api/baterias/search';
-  urlBase = 'http://backend-lth.herokuapp.com/public/api/baterias';
+  url = 'https://backend-lth.herokuapp.com/public/api/baterias';
+  urlBaseBusqueda = 'https://backend-lth.herokuapp.com/public/api/baterias/search';
+  urlBase = 'https://backend-lth.herokuapp.com/public/api/baterias';
   //urlBaseBusqueda = 'http://localhost:8080/api/baterias/search';
   //urlBase = 'http://localhost:8080/api/baterias';
   //url = 'http://localhost:8080/api/baterias';
