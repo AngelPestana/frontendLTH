@@ -27,9 +27,12 @@ export class ConsultarPrecioComponent implements OnInit {
 
   estaBuscando = false;
   buscar = '';
-  urlBaseBusqueda = 'http://localhost:8080/api/clientes/search';
-  urlBase = 'http://localhost:8080/api/clientes';
-  url = 'http://localhost:8080/api/clientes';
+  url = 'http://backend-lth.herokuapp.com/public/api/clientes';
+  urlBaseBusqueda = 'http://backend-lth.herokuapp.com/public/api/clientes/search';
+  urlBase = 'http://backend-lth.herokuapp.com/public/api/clientes';
+  //urlBaseBusqueda = 'http://localhost:8080/api/clientes/search';
+  //urlBase = 'http://localhost:8080/api/clientes';
+  //url = 'http://localhost:8080/api/clientes';
   clientes: Cliente[] = [];
   cliente: Cliente | any;
   details1: Details | any;//por objeto
@@ -38,9 +41,12 @@ export class ConsultarPrecioComponent implements OnInit {
   // atributos para la bateria
   estaBuscando2 = false;
   buscar2 = '';
-  urlBaseBusqueda2 = 'http://localhost:8080/api/baterias/search';
-  urlBase2 = 'http://localhost:8080/api/baterias';
-  url2 = 'http://localhost:8080/api/baterias';
+  url2 = 'http://backend-lth.herokuapp.com/public/api/baterias';
+  urlBaseBusqueda2 = 'http://backend-lth.herokuapp.com/public/api/baterias/search';
+  urlBase2 = 'http://backend-lth.herokuapp.com/public/api/baterias';
+  //urlBaseBusqueda2 = 'http://localhost:8080/api/baterias/search';
+  //urlBase2 = 'http://localhost:8080/api/baterias';
+  //url2 = 'http://localhost:8080/api/baterias';
   baterias: Bateria[] = [];
   details2: Details | any;//por objeto
   numbers2: number[] = [];

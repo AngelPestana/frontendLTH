@@ -8,8 +8,11 @@ import { Usuario } from '../models/Usuario';
 })
 export class UsuarioService {
 
-  url: string = 'http://localhost:8080/api/usuarios';
-  url2: string = 'http://localhost:8080/api/roles';
+  //url: string = 'http://localhost:8080/api/usuarios';
+  //url2: string = 'http://localhost:8080/api/roles';
+
+  url: string = 'http://backend-lth.herokuapp.com/public/api/usuarios';
+  url2: string = 'http://backend-lth.herokuapp.com/public/api/roles';
 
   constructor(private http: HttpClient) { }
 

@@ -21,9 +21,12 @@ export class ClientesComponent implements OnInit {
   estaEnGestion: boolean = false;
   estaBuscando = false;
   buscar = '';
-  urlBaseBusqueda = 'http://localhost:8080/api/clientes/search';
-  urlBase = 'http://localhost:8080/api/clientes';
-  url = 'http://localhost:8080/api/clientes';
+  url = 'http://backend-lth.herokuapp.com/public/api/clientes';
+  urlBaseBusqueda = 'http://backend-lth.herokuapp.com/public/api/clientes/search';
+  urlBase = 'http://backend-lth.herokuapp.com/public/api/clientes';
+  //urlBaseBusqueda = 'http://localhost:8080/api/clientes/search';
+  //urlBase = 'http://localhost:8080/api/clientes';
+  //url = 'http://localhost:8080/api/clientes';
   clientes: Cliente[] = [];
   cliente: Cliente | any;
   details: Details | any;//por objeto

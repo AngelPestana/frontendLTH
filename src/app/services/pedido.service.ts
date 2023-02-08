@@ -13,8 +13,11 @@ export class PedidoService {
   private ppb: PedidoPorBateria [] = [];
   private enviarContadorSubject = new Subject<number>();
   public enviarContadorObservable = this.enviarContadorSubject.asObservable();
-  url: string = 'http://localhost:8080/api/pedidos';
-  url2: string = 'http://localhost:8080/api/pedidosPorBaterias';
+  //url: string = 'http://localhost:8080/api/pedidos';
+  //url2: string = 'http://localhost:8080/api/pedidosPorBaterias';
+
+  url: string = 'http://backend-lth.herokuapp.com/public/api/pedidos';
+  url2: string = 'http://backend-lth.herokuapp.com/public/api/pedidosPorBaterias';
 
   constructor(private http: HttpClient) { }
 

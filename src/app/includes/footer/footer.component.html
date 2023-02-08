@@ -18,11 +18,12 @@
         <div class="col-lg-4 col-6 footer-links">
           <h4>Navegación</h4>
           <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About us</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Terms of service</a></li>
-            <li><a href="#">Privacy policy</a></li>
+            <li><a href="#" routerLink="/home">Inicio</a></li>
+            <li><a href="#" routerLink="/usuarios" *ngIf="idRol == '1'">Usuarios</a></li>
+            <li><a href="#" routerLink="/clientes" *ngIf="userAccedio == true">Clientes</a></li>
+            <li><a href="#" routerLink="/consultar-precio" *ngIf="userAccedio == true">Precio al cliente</a></li>
+            <li><a href="#" routerLink="/pedidos" *ngIf="userAccedio == true">Pedidos</a></li>
+            <li><a href="#" routerLink="/baterias" *ngIf="userAccedio == true">Baterías</a></li>
           </ul>
         </div>
 
@@ -43,6 +44,10 @@
     <div class="container mt-4 text-center">
       <div class="copyright">
         © <strong><span>Todos los derechos reservados</span></strong>
+        <br>
+        <strong><span>Aplicación desarrollado por Ángel de Jesús Pestaña Sánchez</span></strong>
+        <br>
+        <strong><span>Ing. Tecnologías de la Información y Comuniciones</span></strong>
       </div>
     </div>
 

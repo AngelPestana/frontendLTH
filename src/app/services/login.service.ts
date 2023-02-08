@@ -8,7 +8,8 @@ import { Login } from '../models/Login';
 })
 export class LoginService {
 
-  url: string = 'http://localhost:8080/auth/login';
+  //url: string = 'http://localhost:8080/auth/login';
+  url: string = 'http://backend-lth.herokuapp.com/public/auth/login';
 
   constructor(private http: HttpClient) { }
 

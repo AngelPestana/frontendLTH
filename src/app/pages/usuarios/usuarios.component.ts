@@ -21,9 +21,12 @@ export class UsuariosComponent implements OnInit {
   estaEnGestion: boolean = false;
   estaBuscando = false;
   buscar = '';
-  urlBaseBusqueda = 'http://localhost:8080/api/usuarios/search';
-  urlBase = 'http://localhost:8080/api/usuarios';
-  url = 'http://localhost:8080/api/usuarios';
+  url = 'http://backend-lth.herokuapp.com/public/api/usuarios';
+  urlBaseBusqueda = 'http://backend-lth.herokuapp.com/public/api/usuarios/search';
+  urlBase = 'http://backend-lth.herokuapp.com/public/api/usuarios';
+  //urlBaseBusqueda = 'http://localhost:8080/api/usuarios/search';
+  //urlBase = 'http://localhost:8080/api/usuarios';
+  //url = 'http://localhost:8080/api/usuarios';
   usuarios: Usuario[] = [];
   roles: Rol[] = [];
   usuario: Usuario | any;
