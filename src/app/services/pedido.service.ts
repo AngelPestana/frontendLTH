@@ -56,10 +56,19 @@ export class PedidoService {
     return this.ppb[id];
   }
 
-  obtenerTotalDelPedido(): number {
+  obtenerTotalDelPedidoSinUsados(): number {
     let total = 0;
     this.ppb.forEach(element => {
-      total = total + element.subtotal;
+      total = total + element.subtotalSinUsados;
+    });
+    let totalReducido = total.toFixed(2);
+    return +totalReducido;
+  }
+
+  obtenerTotalDelPedidoConUsados(): number {
+    let total = 0;
+    this.ppb.forEach(element => {
+      total = total + element.subtotalConUsados;
     });
     let totalReducido = total.toFixed(2);
     return +totalReducido;

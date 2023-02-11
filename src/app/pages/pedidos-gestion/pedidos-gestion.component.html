@@ -71,8 +71,7 @@
                                             <th scope="col">Direccion</th>
                                             <th scope="col">Municipio</th>
                                             <th scope="col">Estado</th>
-                                            <th scope="col">Descuento 1</th>
-                                            <th scope="col">Descuento 2</th>
+                                            <th scope="col">Descuento</th>
                                             <th scope="col">Seleccione</th>
                                         </tr>
                                     </thead>
@@ -87,7 +86,6 @@
                                             <td>{{cliente.municipio}}</td>
                                             <td>{{cliente.estado}}</td>
                                             <td>{{cliente.porcentajeDescuento}} %</td>
-                                            <td>{{cliente.porcentajeDescuento2}} %</td>
                                             <td>
                                                 <input class="form-check-input radio-center" type="radio"
                                                     name="idCliente" (click)="establecerIdCliente(cliente.id)">
@@ -234,7 +232,8 @@
                                             <td>
                                                 <button class="btn-agregar" type="button"
                                                     (click)="obtenerCantidad(bateria.id)"
-                                                    [disabled]="checarId(bateria.id)">
+                                                    [disabled]="checarId(bateria.id)"
+                                                    [ngClass]="{ 'btn-desactivado': checarId(bateria.id) }">
                                                     Agregar al pedido
                                                 </button>
                                             </td>
@@ -333,8 +332,10 @@
                                     <th scope="col">Precio en lista</th>
                                     <th scope="col">Precio con descuento</th>
                                     <th scope="col">Precio sin usado</th>
+                                    <th scope="col">Precio con usado</th>
                                     <th scope="col">Cantidad</th>
-                                    <th scope="col">Subtotal</th>
+                                    <th scope="col">Subtotal sin usados</th>
+                                    <th scope="col">Subtotal con usados</th>
                                     <th scope="col">Eliminar</th>
                                 </tr>
                             </thead>
@@ -345,8 +346,10 @@
                                     <td>{{ppb.precioLista}}</td>
                                     <td>{{ppb.precioDescuento}}</td>
                                     <td>{{ppb.precioMasCasco}}</td>
+                                    <td>{{ppb.precioMenosCascoUsado}}</td>
                                     <td>{{ppb.cantidad}}</td>
-                                    <td>{{ppb.subtotal}}</td>
+                                    <td>{{ppb.subtotalSinUsados}}</td>
+                                    <td>{{ppb.subtotalConUsados}}</td>
                                     <td>
                                         <button class="btn-agregar" type="button" (click)="eliminarPPB(ppb)">
                                             <i class="bi bi-trash-fill"></i>
@@ -420,7 +423,7 @@
                             <label for="descuentos" class="col-sm-2 col-form-label">Descuentos:</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="descuentos"
-                                    placeholder="{{pedidoPorBateria[0]['descuento1Cliente']}}% y {{pedidoPorBateria[0]['descuento2Cliente']}}%"
+                                    placeholder="{{pedidoPorBateria[0]['descuento1Cliente']}}%"
                                     disabled>
                             </div>
                         </div>
@@ -465,22 +468,28 @@
                         <tr class="text-center">
                             <th scope="col">Cantidad</th>
                             <th scope="col">Producto</th>
-                            <th scope="col">Precio</th>
-                            <th scope="col">Precio por cantidad</th>
-                            <th scope="col">Precio del casco</th>
+                            <th scope="col">Precio lista</th>
+                            <th scope="col">Precio con descuento</th>
+                            <th scope="col">Precio descuento por cantidad</th>
+                            <th scope="col">Precio del casco nuevo</th>
                             <th scope="col">Casco por cantidad</th>
-                            <th scope="col">Subtotal</th>
+                            <th scope="col">Subtotal precio lista</th>
+                            <th scope="col">Subtotal sin usados</th>
+                            <th scope="col">Subtotal con usados</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr class="text-center" *ngFor="let ppb of pedidoPorBateria">
                             <td>{{ppb.cantidad}}</td>
                             <td>{{ppb.tipoBateria}}</td>
+                            <td>${{ppb.precioLista}}</td>
                             <td>${{ppb.precioDescuento}}</td>
                             <td>${{ppb.subtotalConDescuento}}</td>
                             <td>${{ppb.precioCascoNuevo}}</td>
                             <td>${{ppb.subtotalCascosNuevos}}</td>
-                            <td>${{ppb.subtotal}}</td>
+                            <td>${{ppb.subtotalPrecioLista}}</td>
+                            <td>${{ppb.subtotalSinUsados}}</td>
+                            <td>${{ppb.subtotalConUsados}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -489,19 +498,22 @@
         <div class="container mb-3">
             <div class="col-md-12">
                 <div class="row text-center">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <button class="btn-agregar w-100" type="button" (click)="regresarPaso2()">
                             Anterior
                         </button>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <button class="btn-agregar-verde w-100" type="button" [disabled]="formPedido.invalid"
                             (click)="preguntarAntesCrear()">
                             Confirmar Pedido
                         </button>
                     </div>
-                    <div class="col-md-4">
-                        <h3 class="text-center mb-3">Total del pedido: ${{total}}</h3>
+                    <div class="col-md-3">
+                        <h5 class="text-center mb-3">Total Sin Usado: ${{totalSinUsados}}</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-center mb-3">Total Con Usado: ${{totalConUsados}}</h5>
                     </div>
                 </div>
             </div>

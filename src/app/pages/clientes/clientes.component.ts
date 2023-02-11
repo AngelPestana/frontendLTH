@@ -92,12 +92,6 @@ export class ClientesComponent implements OnInit {
         Validators.minLength(1),
         Validators.maxLength(5)
       ]),
-      porcentajeDescuento2: new FormControl('', [
-        Validators.required,
-        Validators.pattern("[0-9.]{1,5}"),
-        Validators.minLength(1),
-        Validators.maxLength(5)
-      ]),
       direccion: new FormControl('', [
         Validators.required,
         Validators.pattern("[a-zA-Z0-9. ]{10,150}"),
@@ -255,7 +249,6 @@ export class ClientesComponent implements OnInit {
     cliente.municipio = this.formulario2.value.municipio;
     cliente.estado = this.formulario2.value.estado;
     cliente.porcentajeDescuento = this.formulario2.value.porcentajeDescuento;
-    cliente.porcentajeDescuento2 = this.formulario2.value.porcentajeDescuento2;
     //console.log(cliente);
     this.PostSubscription = this.service.postCliente(cliente).subscribe((res: any) => {
       //console.log(res);
@@ -323,7 +316,6 @@ export class ClientesComponent implements OnInit {
     cliente.municipio = this.formulario2.value.municipio;
     cliente.estado = this.formulario2.value.estado;
     cliente.porcentajeDescuento = this.formulario2.value.porcentajeDescuento;
-    cliente.porcentajeDescuento2 = this.formulario2.value.porcentajeDescuento2;
     //console.log(cliente);
     this.PutSubscription = this.service.putCliente(cliente, this.cliente.id).subscribe((res: any) => {
       //console.log(res);

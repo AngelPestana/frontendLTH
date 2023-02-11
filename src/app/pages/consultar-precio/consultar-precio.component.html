@@ -57,8 +57,7 @@
                                             <th scope="col">Direccion</th>
                                             <th scope="col">Municipio</th>
                                             <th scope="col">Estado</th>
-                                            <th scope="col">Descuento 1</th>
-                                            <th scope="col">Descuento 2</th>
+                                            <th scope="col">Descuento</th>
                                             <th scope="col">Seleccione</th>
                                         </tr>
                                     </thead>
@@ -73,7 +72,6 @@
                                             <td>{{cliente.municipio}}</td>
                                             <td>{{cliente.estado}}</td>
                                             <td>{{cliente.porcentajeDescuento}} %</td>
-                                            <td>{{cliente.porcentajeDescuento2}} %</td>
                                             <td>
                                                 <input class="form-check-input radio-center"
                                                     type="radio" name="idCliente" (click)="establecerIdCliente(cliente.id)">

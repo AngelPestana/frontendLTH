@@ -18,7 +18,9 @@ export class PedidoPorBateria {
     subtotalPrecioLista: number| any;
     subtotalDescuento: number| any;
     subtotalCascosNuevos: number| any;
+    subtotalCascosUsados: number| any;
     subtotalConDescuento: number| any;
-    subtotal: number| any;
+    subtotalSinUsados: number| any;
+    subtotalConUsados: number| any;
     created_at: string| any;
 }

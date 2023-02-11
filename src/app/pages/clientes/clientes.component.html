@@ -62,8 +62,7 @@
 										<th scope="col">Direccion</th>
 										<th scope="col">Municipio</th>
 										<th scope="col">Estado</th>
-										<th scope="col">Descuento 1</th>
-										<th scope="col">Descuento 2</th>
+										<th scope="col">Descuento</th>
 										<th scope="col">Gestión</th>
 									</tr>
 								</thead>
@@ -78,7 +77,6 @@
 										<td>{{cliente.municipio}}</td>
 										<td>{{cliente.estado}}</td>
 										<td>{{cliente.porcentajeDescuento}} %</td>
-										<td>{{cliente.porcentajeDescuento2}} %</td>
 										<td>
 											<a href="" class="btn-agregar" data-bs-toggle="modal"
                             				data-bs-target="#staticBackdrop" (click)="entroEnGestion(cliente.id)">
@@ -218,24 +216,13 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="porcentajeDescuento" class="form-label fs-base">Descuento 1</label>
+                        <label for="porcentajeDescuento" class="form-label fs-base">Descuento</label>
                         <input type="number" id="porcentajeDescuento" class="form-control form-control-lg" formControlName="porcentajeDescuento">
                         <div
                             *ngIf="formularioControl2.porcentajeDescuento.errors && (formularioControl2.porcentajeDescuento.dirty || formularioControl2.porcentajeDescuento.touched)">
                             <p class="form-text text-danger"
                                 *ngIf="formularioControl2.porcentajeDescuento.errors.required || formularioControl2.porcentajeDescuento.errors.minlength || formularioControl2.porcentajeDescuento.errors.maxlength || formularioControl2.porcentajeDescuento.errors.pattern">
                                 El descuento 1 es requerido, debe ser valido, no debe tener menos de 1 caracter y más de 5 caracteres</p>
-                        </div>
-                    </div>
-
-					<div class="mb-4">
-                        <label for="porcentajeDescuento2" class="form-label fs-base">Descuento 2</label>
-                        <input type="number" id="porcentajeDescuento2" class="form-control form-control-lg" formControlName="porcentajeDescuento2">
-                        <div
-                            *ngIf="formularioControl2.porcentajeDescuento2.errors && (formularioControl2.porcentajeDescuento2.dirty || formularioControl2.porcentajeDescuento2.touched)">
-                            <p class="form-text text-danger"
-                                *ngIf="formularioControl2.porcentajeDescuento2.errors.required || formularioControl2.porcentajeDescuento2.errors.minlength || formularioControl2.porcentajeDescuento2.errors.maxlength || formularioControl2.porcentajeDescuento2.errors.pattern">
-                                El descuento 2 es requerido, debe ser valido, no debe tener menos de 1 caracter y más de 5 caracteres</p>
                         </div>
                     </div>
 

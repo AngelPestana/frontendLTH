@@ -27,7 +27,8 @@ export class PedidosGestionComponent implements OnInit {
   idCliente = 0;
   pedidoPorBateria: PedidoPorBateria[] = [];
   contador = 0;
-  total = 0;
+  totalSinUsados = 0;
+  totalConUsados = 0;
   agente = 'Miguel Angel Pestaña Villalana';
   //precioCliente: any;
   //GetSubscription: Subscription | any;
@@ -37,10 +38,10 @@ export class PedidosGestionComponent implements OnInit {
   urlBaseBusqueda = 'https://backend-lth.herokuapp.com/public/api/clientes/search';
   urlBase = 'https://backend-lth.herokuapp.com/public/api/clientes';
   //urlBaseBusqueda = 'http://localhost:8080/api/clientes/search';
-  //urlBase = 'http://localhost:8080/api/clientes';
+  //uBase = 'http://localhost:8080/api/clientes';
   //url = 'http://localhost:8080/api/clientes';
   clientes: Cliente[] = [];
-  cliente: Cliente | any;
+  clirlente: Cliente | any;
   details1: Details | any;//por objeto
   numbers: number[] = [];
   GetSubscriptions: Subscription | any;
@@ -385,7 +386,8 @@ export class PedidosGestionComponent implements OnInit {
 
   paso2Completado(): void {
     this.paso2 = true;
-    this.total = this.service3.obtenerTotalDelPedido();
+    this.totalSinUsados = this.service3.obtenerTotalDelPedidoSinUsados();
+    this.totalConUsados = this.service3.obtenerTotalDelPedidoConUsados();
   }
 
   checarPedido(): boolean {
@@ -434,7 +436,8 @@ export class PedidosGestionComponent implements OnInit {
     pedido.totalSinDescuento = this.service3.obtenerTotalSinDescuento();
     pedido.totalDescuento = this.service3.obtenerTotalDescuento();
     pedido.totalConDescuento = this.service3.obtenerTotalConDescuento();
-    pedido.totalMasCasco = this.service3.obtenerTotalDelPedido();
+    pedido.totalMasCasco = this.service3.obtenerTotalDelPedidoSinUsados();
+    pedido.totalMenosCasco = this.service3.obtenerTotalDelPedidoConUsados();
     pedido.condiciones = this.formControlPedido.condiciones.value;
     pedido.agente = this.agente;
     pedido.fecha = this.formControlPedido.fecha.value;
@@ -471,6 +474,7 @@ export class PedidosGestionComponent implements OnInit {
       //here our function should be implemented 
       let cont = 0;
       this.pedidoPorBateria.map((ppb) => {
+        //console.log(ppb);
         ppb.idPedido = idPedido;
         console.log('map corriendo');
         this.PostSubscriptions = this.service3.postPedidoPorBateria(ppb).subscribe(async (res: any) => {

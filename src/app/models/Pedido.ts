@@ -6,6 +6,7 @@ export class Pedido {
     totalDescuento: number| any;
     totalConDescuento: number| any;
     totalMasCasco: number| any;
+    totalMenosCasco: number| any;
     agente: string| any;
     condiciones: string| any;
     Cliente: string| any;

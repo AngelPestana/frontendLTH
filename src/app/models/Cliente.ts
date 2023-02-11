@@ -9,6 +9,5 @@ export class Cliente {
     municipio: string| undefined;
     estado: string| undefined;
     porcentajeDescuento: number| undefined;
-    porcentajeDescuento2: number| undefined;
     created_at: string| undefined;
 }
